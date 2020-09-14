@@ -1,0 +1,14 @@
+# ignore all logs
+*.log
+#ignore IDE related files
+.idea/
+#all bin folders
+bin/# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
