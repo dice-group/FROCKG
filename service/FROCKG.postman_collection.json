@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "3869604d-b8e0-4952-812e-8af3414fd655",
+		"name": "FROCKG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "test service is up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/default",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"default"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BillGates_nationality_US",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/checkFact?subject=http://dbpedia.org/resource/Bill_Gates&object=http://dbpedia.org/resource/United_States&predicate=http://dbpedia.org/ontology/nationality&isVirtualType=False&pathlength=2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"checkFact"
+					],
+					"query": [
+						{
+							"key": "subject",
+							"value": "http://dbpedia.org/resource/Bill_Gates"
+						},
+						{
+							"key": "object",
+							"value": "http://dbpedia.org/resource/United_States"
+						},
+						{
+							"key": "predicate",
+							"value": "http://dbpedia.org/ontology/nationality"
+						},
+						{
+							"key": "isVirtualType",
+							"value": "False"
+						},
+						{
+							"key": "pathlength",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "16a32d3d-afd1-4c38-92a2-95a573fee475",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "99501d08-489d-42ec-ab04-d7f522b6cddc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "b8e7d04d-8ca1-442f-abc1-2f575f424eb5",
+			"key": "host",
+			"value": "localhost:8081"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
