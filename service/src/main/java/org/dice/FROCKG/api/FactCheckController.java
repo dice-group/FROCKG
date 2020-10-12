@@ -19,13 +19,25 @@ public class FactCheckController {
     return "OK!";
   }
 
-  @GetMapping("/factcheck")
-  public String checkThisFact(
+  /*@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Some parameters are invalid")*/
+  @GetMapping("/checkFact")
+  public String checkFact(
       @RequestParam(value = "subject", required = true) String subject,
       @RequestParam(value = "object", required = true) String object,
       @RequestParam(value = "predicate", required = true) String predicate,
-      @RequestParam(value = "isVirtualType", defaultValue = "false") boolean isVirtualType) {
+      @RequestParam(value = "isVirtualType", defaultValue = "false") boolean isVirtualType,
+      @RequestParam(value = "pathlength", required = false, defaultValue = "2")
+          Integer pathLength) {
 
-    return service.checkThisFact(subject, object, predicate, isVirtualType);
+    return service.checkFact(subject, object, predicate, isVirtualType, pathLength);
+  }
+
+  @GetMapping("/checkKG")
+  public String checkKG(
+      @RequestParam(value = "sparql", required = true) String sparql,
+      @RequestParam(value = "user", required = true) String user,
+      @RequestParam(value = "password", required = true) String password) {
+
+    throw new UnsupportedOperationException();
   }
 }
