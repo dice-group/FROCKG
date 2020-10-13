@@ -7,8 +7,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dice.FROCKG.FactCheck.FactCheckCorpus;
 import org.dice.FROCKG.FactCheck.FactCheckKG;
+import org.dice.FROCKG.api.FactCheckController;
 import org.dice.FROCKG.utilities.validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,16 +19,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class FactCheckService {
 
+  Logger logger = LogManager.getLogger(FactCheckController.class);
+
   @Value("${COPAAL.Server}")
   private String COPAALServer;
 
   public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
       int pathLength) {
-
+    logger.debug("start fact cheking ...");
     if (!validateArgument(subject, object, predicate, isVirtualType, pathLength)) {
       throw new IllegalArgumentException();
     }
-
+    logger.debug("Arguments are valid :) ");
     List<Callable<String>> taskList = new ArrayList<Callable<String>>();
     taskList.add(new FactCheckCorpus(subject, object, predicate));
     taskList
@@ -42,10 +47,9 @@ public class FactCheckService {
         }
       }
     } catch (InterruptedException ie) {
-
+      logger.error(ie);
     } catch (ExecutionException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error(e);
     }
 
     return mergeResult(results);

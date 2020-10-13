@@ -1,5 +1,7 @@
 package org.dice.FROCKG.api;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dice.FROCKG.Service.FactCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +15,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/")
 public class FactCheckController {
 
+  Logger logger = LogManager.getLogger(FactCheckController.class);
+
   @Autowired
   private FactCheckService service;
 
   // To verify status of server
   @RequestMapping("/default")
   public String defaultpage() {
+    logger.info("end point called.");
     return "OK!";
   }
 
@@ -32,8 +37,12 @@ public class FactCheckController {
     try {
       return service.checkFact(subject, object, predicate, isVirtualType, pathLength);
     } catch (IllegalArgumentException ex) {
+      logger.error("parameters are not valid" + "subject : " + subject + " object : " + object
+          + " predicate : " + predicate + " isVirtual : " + isVirtualType + " pathLength "
+          + pathLength);
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parameter not valid", ex);
     } catch (Exception ex) {
+      logger.error(ex);
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error happened", ex);
     }
   }
