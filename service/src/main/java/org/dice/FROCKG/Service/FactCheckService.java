@@ -1,9 +1,17 @@
 package org.dice.FROCKG.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import org.dice.FROCKG.FactCheck.FactCheckCorpus;
+import org.dice.FROCKG.FactCheck.FactCheckKG;
 import org.dice.FROCKG.utilities.validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Component
 public class FactCheckService {
@@ -11,55 +19,48 @@ public class FactCheckService {
   @Value("${COPAAL.Server}")
   private String COPAALServer;
 
-  public String checkFact(
-      String subject, String object, String predicate, boolean isVirtualType, int pathLength) {
+  public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
+      int pathLength) {
 
     if (!validateArgument(subject, object, predicate, isVirtualType, pathLength)) {
       throw new IllegalArgumentException();
     }
 
-    String resultKG = KGFactCheck(subject, object, predicate, isVirtualType, pathLength);
-    String resultCorpus = CorpusFactCheck(subject, object, predicate);
-    return mergeResult(resultKG, resultCorpus);
+    List<Callable<String>> taskList = new ArrayList<Callable<String>>();
+    taskList.add(new FactCheckCorpus(subject, object, predicate));
+    taskList
+        .add(new FactCheckKG(subject, object, predicate, isVirtualType, pathLength, COPAALServer));
+
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+
+    List<String> results = new ArrayList<String>();
+
+    try {
+      for (Future<String> result : executor.invokeAll(taskList)) {
+        if (result.get() != null) {
+          results.add(result.get());
+        }
+      }
+    } catch (InterruptedException ie) {
+
+    } catch (ExecutionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    return mergeResult(results);
   }
 
-  private String mergeResult(String resultKG, String resultCorpus) {
-    return resultKG + resultCorpus;
+  private String mergeResult(List<String> results) {
+    String RetVal = null;
+    for (String s : results) {
+      RetVal += s;
+    }
+    return RetVal;
   }
 
-  private String CorpusFactCheck(String subject, String object, String predicate) {
-    // TODO Implement
-    return null;
-  }
-
-  private String KGFactCheck(
-      String subject, String object, String predicate, boolean isVirtualType, int pathLength) {
-
-    String pathGeneratorType = handlePathGenerator(predicate);
-
-    String url =
-        COPAALServer
-            + "/validate"
-            + "?subject={subject}&property={predicate}&object={object}&pathgeneratortype={pathGeneratorType}&virtualType={isVirtualType}&pathlength={pathLength}";
-    System.out.print(url);
-    RestTemplate restTemplate = new RestTemplate();
-
-    String result =
-        restTemplate.getForObject(
-            url,
-            String.class,
-            subject,
-            predicate,
-            object,
-            pathGeneratorType,
-            isVirtualType,
-            pathLength);
-    System.out.print(result);
-    return result;
-  }
-
-  private boolean validateArgument(
-      String subject, String object, String predicate, boolean isVirtualType, int pathLength) {
+  private boolean validateArgument(String subject, String object, String predicate,
+      boolean isVirtualType, int pathLength) {
     if (!validator.isUriValid(subject)) {
       return false;
     }
@@ -75,10 +76,4 @@ public class FactCheckService {
     return true;
   }
 
-  private String handlePathGenerator(String predicate) {
-    if (predicate.toLowerCase().contains("wikidata")) {
-      return "wikidata";
-    }
-    return "default";
-  }
 }

@@ -25,7 +25,7 @@
 			"response": []
 		},
 		{
-			"name": "BillGates_nationality_US",
+			"name": "fact check for BillGates_nationality_US",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -51,6 +51,47 @@
 						{
 							"key": "predicate",
 							"value": "http://dbpedia.org/ontology/nationality"
+						},
+						{
+							"key": "isVirtualType",
+							"value": "False"
+						},
+						{
+							"key": "pathlength",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fact check with notValid parameter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/checkFact?subject=a&object=b&predicate=c&isVirtualType=False&pathlength=2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"checkFact"
+					],
+					"query": [
+						{
+							"key": "subject",
+							"value": "a"
+						},
+						{
+							"key": "object",
+							"value": "b"
+						},
+						{
+							"key": "predicate",
+							"value": "c"
 						},
 						{
 							"key": "isVirtualType",
@@ -90,7 +131,7 @@
 	],
 	"variable": [
 		{
-			"id": "b8e7d04d-8ca1-442f-abc1-2f575f424eb5",
+			"id": "5a013624-c3e7-49c8-9998-e4bbb179fa2c",
 			"key": "host",
 			"value": "localhost:8081"
 		}
