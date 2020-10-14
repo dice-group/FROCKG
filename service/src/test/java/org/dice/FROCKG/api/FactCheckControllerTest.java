@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class FactCheckControllerTest {
 
@@ -18,9 +19,16 @@ public class FactCheckControllerTest {
   private TestRestTemplate restTemplate;
 
   @Test
-  public void FactCheckController_WhenCallDefaultendPoint_ShouldReturnDefaultMessage()
+  public void FactCheckController_WhenCallDefaultEndPoint_ShouldReturnDefaultMessage()
       throws Exception {
     assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/api/v1/default",
+        String.class)).contains("OK!");
+  }
+
+  @Test
+  public void FactCheckController_WhenCallCopaaltestEndPoint_ShouldReturnDefaultMessage()
+      throws Exception {
+    assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/api/v1/copaaltest",
         String.class)).contains("OK!");
   }
 

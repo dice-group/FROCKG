@@ -25,6 +25,25 @@
 			"response": []
 		},
 		{
+			"name": "test copaal service is up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/copaaltest",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"copaaltest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "fact check for BillGates_nationality_US",
 			"request": {
 				"method": "GET",
@@ -131,7 +150,7 @@
 	],
 	"variable": [
 		{
-			"id": "5a013624-c3e7-49c8-9998-e4bbb179fa2c",
+			"id": "17d77721-9b1f-45e7-ad7e-4fbeaa57fd62",
 			"key": "host",
 			"value": "localhost:8081"
 		}

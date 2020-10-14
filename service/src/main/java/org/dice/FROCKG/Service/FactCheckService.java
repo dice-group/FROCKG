@@ -22,7 +22,7 @@ public class FactCheckService {
   Logger logger = LogManager.getLogger(FactCheckController.class);
 
   @Value("${COPAAL.Server}")
-  private String COPAALServer;
+  private String COPAALServerUrl;
 
   public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
       int pathLength) {
@@ -33,8 +33,8 @@ public class FactCheckService {
     logger.debug("Arguments are valid :) ");
     List<Callable<String>> taskList = new ArrayList<Callable<String>>();
     taskList.add(new FactCheckCorpus(subject, object, predicate));
-    taskList
-        .add(new FactCheckKG(subject, object, predicate, isVirtualType, pathLength, COPAALServer));
+    taskList.add(
+        new FactCheckKG(subject, object, predicate, isVirtualType, pathLength, COPAALServerUrl));
 
     ExecutorService executor = Executors.newFixedThreadPool(2);
 
