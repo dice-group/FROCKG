@@ -1,12 +1,16 @@
 package org.dice.FROCKG.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.dice.FROCKG.data.dto.FactCheckResultDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -37,8 +41,9 @@ public class FactCheckControllerTest {
       throws Exception {
     String url = "http://localhost:" + port
         + "/api/v1/checkFact?subject=a&object=b&predicate=c&isVirtualType=False&pathlength=5";
-
-    assertThat(this.restTemplate.getForObject(url, String.class)).contains("Bad Request");
+    ResponseEntity<FactCheckResultDto> resp =
+        restTemplate.getForEntity(url, FactCheckResultDto.class);
+    Assertions.assertEquals(resp.getStatusCode(), HttpStatus.BAD_REQUEST);
   }
 
   @Test
@@ -47,7 +52,10 @@ public class FactCheckControllerTest {
     String url = "http://localhost:" + port
         + "/api/v1/checkFact?subject=http://dbpedia.org/resource/Bill_Gates&object=http://dbpedia.org/resource/United_States&predicate=http://dbpedia.org/ontology/nationality&isVirtualType=False&pathlength=2";
 
-    assertThat(this.restTemplate.getForObject(url, String.class)).contains("pathList");
+    ResponseEntity<FactCheckResultDto> resp =
+        restTemplate.getForEntity(url, FactCheckResultDto.class);
+
+    Assertions.assertEquals(resp.getStatusCode(), HttpStatus.OK);
   }
 
 }
