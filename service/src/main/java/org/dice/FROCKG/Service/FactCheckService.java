@@ -56,7 +56,7 @@ public class FactCheckService {
   }
 
   private String mergeResult(List<String> results) {
-    String RetVal = null;
+    String RetVal = "";
     for (String s : results) {
       RetVal += s;
     }
