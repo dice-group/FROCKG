@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class InfrastructureMonitoringService {
 
-  Logger logger = LogManager.getLogger(InfrastructureMonitoringService.class);
+  private static final Logger logger = LogManager.getLogger(InfrastructureMonitoringService.class);
 
   @Value("${COPAAL.Server}")
   String COPAALServerUrl;

@@ -12,14 +12,13 @@ import org.apache.logging.log4j.Logger;
 import org.dice.FROCKG.FactCheck.FactCheckCorpus;
 import org.dice.FROCKG.FactCheck.FactCheckKG;
 import org.dice.FROCKG.api.FactCheckController;
-import org.dice.FROCKG.utilities.validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FactCheckService {
 
-  Logger logger = LogManager.getLogger(FactCheckController.class);
+  private static final Logger logger = LogManager.getLogger(FactCheckController.class);
 
   @Value("${COPAAL.Server}")
   private String COPAALServerUrl;
@@ -27,10 +26,6 @@ public class FactCheckService {
   public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
       int pathLength) {
     logger.debug("start fact cheking ...");
-    if (!validateArgument(subject, object, predicate, isVirtualType, pathLength)) {
-      throw new IllegalArgumentException();
-    }
-    logger.debug("Arguments are valid :) ");
     List<Callable<String>> taskList = new ArrayList<Callable<String>>();
     taskList.add(new FactCheckCorpus(subject, object, predicate));
     taskList.add(
@@ -62,22 +57,4 @@ public class FactCheckService {
     }
     return RetVal;
   }
-
-  private boolean validateArgument(String subject, String object, String predicate,
-      boolean isVirtualType, int pathLength) {
-    if (!validator.isUriValid(subject)) {
-      return false;
-    }
-    if (!validator.isUriValid(object)) {
-      return false;
-    }
-    if (!validator.isUriValid(predicate)) {
-      return false;
-    }
-    if (pathLength != 2 && pathLength != 3) {
-      return false;
-    }
-    return true;
-  }
-
 }

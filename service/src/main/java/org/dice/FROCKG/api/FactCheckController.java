@@ -1,13 +1,14 @@
 package org.dice.FROCKG.api;
 
+import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dice.FROCKG.Service.FactCheckService;
 import org.dice.FROCKG.Service.InfrastructureMonitoringService;
+import org.dice.FROCKG.data.dto.FactCheckRequestDto;
 import org.dice.FROCKG.data.dto.FactCheckResultDto;
 import org.dice.FROCKG.mapper.FactCheckResultMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,26 +47,11 @@ public class FactCheckController {
   }
 
   @GetMapping("/checkFact")
-  public ResponseEntity<FactCheckResultDto> checkFact(
-      @RequestParam(value = "subject", required = true) String subject,
-      @RequestParam(value = "object", required = true) String object,
-      @RequestParam(value = "predicate", required = true) String predicate,
-      @RequestParam(value = "isVirtualType", defaultValue = "false") boolean isVirtualType,
-      @RequestParam(value = "pathlength", required = false,
-          defaultValue = "2") Integer pathLength) {
-    try {
-      final FactCheckResultDto result = factCheckMapper
-          .ToDto(service.checkFact(subject, object, predicate, isVirtualType, pathLength));
-      return ResponseEntity.ok(result);
-    } catch (IllegalArgumentException ex) {
-      logger.error("parameters are not valid" + "subject : " + subject + " object : " + object
-          + " predicate : " + predicate + " isVirtual : " + isVirtualType + " pathLength "
-          + pathLength);
-      return ResponseEntity.badRequest().build();
-    } catch (Exception ex) {
-      logger.error(ex);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
+  public ResponseEntity<FactCheckResultDto> checkFact(@Valid FactCheckRequestDto input) {
+
+    final FactCheckResultDto rr = factCheckMapper.ToDto(service.checkFact(input.getSubject(),
+        input.getObject(), input.getPredicate(), input.Isvirtualtype(), input.getPathlength()));
+    return ResponseEntity.ok(rr);
   }
 
   @GetMapping("/checkKG")

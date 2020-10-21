@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component
 public class FactCheckResultMapper {
 
-  Logger logger = LogManager.getLogger(FactCheckResultMapper.class);
+  private static final Logger logger = LogManager.getLogger(FactCheckResultMapper.class);
 
-  public FactCheckResultDto ToDto(String json) throws Exception {
+  public FactCheckResultDto ToDto(String json) {
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       FactCheckResultDto factCheckResultDto =
@@ -20,17 +20,17 @@ public class FactCheckResultMapper {
       return factCheckResultDto;
     } catch (IOException e) {
       logger.error(e.getMessage());
-      throw new Exception(e);
+      return null;
     }
   }
 
-  public String ToJson(FactCheckResultDto input) throws Exception {
+  public String ToJson(FactCheckResultDto input) {
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       return objectMapper.writeValueAsString(input);
     } catch (IOException e) {
       logger.error(e.getMessage());
-      throw new Exception(e);
+      return "";
     }
   }
 }

@@ -2,8 +2,8 @@ package org.dice.FROCKG.utilities;
 
 import java.net.URI;
 
-public class validator {
-  public static boolean isUriValid(String uri) {
+public class Validator {
+  public static boolean IsUriValid(String uri) {
     // TODO should improve
     final URI u;
     try {

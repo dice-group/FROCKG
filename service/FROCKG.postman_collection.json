@@ -90,7 +90,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/checkFact?subject=a&object=b&predicate=c&isVirtualType=False&pathlength=2",
+					"raw": "{{host}}/api/v1/checkFact?subject=http://dbpedia.org/resource/Bill_Gates&object=http://dbpedia.org/resource/United_States&predicate=http://dbpedia.org/ontology/nationality&isVirtualType=False&pathlength=2",
 					"host": [
 						"{{host}}"
 					],
@@ -102,15 +102,15 @@
 					"query": [
 						{
 							"key": "subject",
-							"value": "a"
+							"value": "http://dbpedia.org/resource/Bill_Gates"
 						},
 						{
 							"key": "object",
-							"value": "b"
+							"value": "http://dbpedia.org/resource/United_States"
 						},
 						{
 							"key": "predicate",
-							"value": "c"
+							"value": "http://dbpedia.org/ontology/nationality"
 						},
 						{
 							"key": "isVirtualType",
@@ -150,7 +150,7 @@
 	],
 	"variable": [
 		{
-			"id": "17d77721-9b1f-45e7-ad7e-4fbeaa57fd62",
+			"id": "70eef1a6-b123-4bfc-b180-d87695e29707",
 			"key": "host",
 			"value": "localhost:8081"
 		}
