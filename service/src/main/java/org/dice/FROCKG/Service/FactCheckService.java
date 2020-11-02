@@ -23,13 +23,19 @@ public class FactCheckService {
   @Value("${COPAAL.Server}")
   private String COPAALServerUrl;
 
-  public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
-      int pathLength) {
+  public String checkFact(
+      String subject,
+      String object,
+      String predicate,
+      boolean isVirtualType,
+      int pathLength,
+      boolean verbalize) {
     logger.debug("start fact cheking ...");
     List<Callable<String>> taskList = new ArrayList<Callable<String>>();
     taskList.add(new FactCheckCorpus(subject, object, predicate));
     taskList.add(
-        new FactCheckKG(subject, object, predicate, isVirtualType, pathLength, COPAALServerUrl));
+        new FactCheckKG(
+            subject, object, predicate, isVirtualType, pathLength, COPAALServerUrl, verbalize));
 
     ExecutorService executor = Executors.newFixedThreadPool(2);
 

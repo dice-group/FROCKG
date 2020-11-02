@@ -10,8 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class FactCheckServiceTest {
-  @Autowired
-  FactCheckService service;
+  @Autowired FactCheckService service;
 
   @Test
   void FactCheck_ArgumentsAreValid_ShouldNotThrowError() {
@@ -20,9 +19,11 @@ public class FactCheckServiceTest {
     String predicate = "http://dbpedia.org/ontology/nationalityt";
     boolean isVirtualType = false;
     int pathLength = 2;
+    boolean verbalize = false;
 
-    Assertions.assertDoesNotThrow(() -> {
-      service.checkFact(subject, object, predicate, isVirtualType, pathLength);
-    });
+    Assertions.assertDoesNotThrow(
+        () -> {
+          service.checkFact(subject, object, predicate, isVirtualType, pathLength, verbalize);
+        });
   }
 }

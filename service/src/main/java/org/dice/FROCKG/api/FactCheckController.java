@@ -21,14 +21,11 @@ public class FactCheckController {
 
   Logger logger = LogManager.getLogger(FactCheckController.class);
 
-  @Autowired
-  private FactCheckService service;
+  @Autowired private FactCheckService service;
 
-  @Autowired
-  FactCheckResultMapper factCheckMapper;
+  @Autowired FactCheckResultMapper factCheckMapper;
 
-  @Autowired
-  private InfrastructureMonitoringService monitorService;
+  @Autowired private InfrastructureMonitoringService monitorService;
 
   // To verify status of server
   @RequestMapping("/default")
@@ -49,13 +46,21 @@ public class FactCheckController {
   @GetMapping("/checkFact")
   public ResponseEntity<FactCheckResultDto> checkFact(@Valid FactCheckRequestDto input) {
 
-    final FactCheckResultDto rr = factCheckMapper.ToDto(service.checkFact(input.getSubject(),
-        input.getObject(), input.getPredicate(), input.Isvirtualtype(), input.getPathlength()));
+    final FactCheckResultDto rr =
+        factCheckMapper.ToDto(
+            service.checkFact(
+                input.getSubject(),
+                input.getObject(),
+                input.getPredicate(),
+                input.isVirtualtype(),
+                input.getPathlength(),
+                input.isVerbalize()));
     return ResponseEntity.ok(rr);
   }
 
   @GetMapping("/checkKG")
-  public String checkKG(@RequestParam(value = "sparql", required = true) String sparql,
+  public String checkKG(
+      @RequestParam(value = "sparql", required = true) String sparql,
       @RequestParam(value = "user", required = true) String user,
       @RequestParam(value = "password", required = true) String password) {
 
