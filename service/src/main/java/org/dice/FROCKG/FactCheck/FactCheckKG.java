@@ -34,7 +34,7 @@ public class FactCheckKG implements Callable<String> {
     RestTemplate restTemplate = new RestTemplate();
 
     String result = restTemplate.getForObject(url, String.class, subject, predicate, object,
-        pathGeneratorType, isVirtualType, pathLength);
+        pathGeneratorType, isVirtualType, pathLength, verbalize);
 
     return result;
   }

@@ -26,8 +26,8 @@ public class FactCheckService {
   @Value("${FACTCHECK.Server}")
   private String FACTCHECKServerUrl;
 
-  public String checkFact(String subject, String object, String predicate, boolean isVirtualType,
-      int pathLength, boolean verbalize) {
+  public List<String> checkFact(String subject, String object, String predicate,
+      boolean isVirtualType, int pathLength, boolean verbalize) {
     logger.debug("start fact cheking ...");
     List<Callable<String>> taskList = new ArrayList<Callable<String>>();
     taskList.add(new FactCheckCorpus(subject, object, predicate, FACTCHECKServerUrl));
@@ -50,14 +50,6 @@ public class FactCheckService {
       logger.error(e);
     }
 
-    return mergeResult(results);
-  }
-
-  private String mergeResult(List<String> results) {
-    String RetVal = "";
-    for (String s : results) {
-      RetVal += s;
-    }
-    return RetVal;
+    return results;
   }
 }

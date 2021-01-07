@@ -23,7 +23,7 @@ public class FactCheckCorpus implements Callable<String> {
 
     RestTemplate restTemplate = new RestTemplate();
 
-    String result = restTemplate.getForObject(url, String.class, subject, predicate, object);
+    String result = restTemplate.getForObject(url, String.class, subject, object, predicate);
 
     return result;
   }

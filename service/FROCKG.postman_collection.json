@@ -124,13 +124,76 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "test factcheck service is up",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/factchecktest",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"factchecktest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fact check for einstein birthplace Germany",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/checkFact?subject=http://dbpedia.org/resource/Albert_Einstein&object=http://dbpedia.org/resource/Germany&predicate=http://dbpedia.org/ontology/birthPlace&pathlength=2&virtualtype=False&verbalize=True",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"checkFact"
+					],
+					"query": [
+						{
+							"key": "subject",
+							"value": "http://dbpedia.org/resource/Albert_Einstein"
+						},
+						{
+							"key": "object",
+							"value": "http://dbpedia.org/resource/Germany"
+						},
+						{
+							"key": "predicate",
+							"value": "http://dbpedia.org/ontology/birthPlace"
+						},
+						{
+							"key": "pathlength",
+							"value": "2"
+						},
+						{
+							"key": "virtualtype",
+							"value": "False"
+						},
+						{
+							"key": "verbalize",
+							"value": "True"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "16a32d3d-afd1-4c38-92a2-95a573fee475",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -140,7 +203,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "99501d08-489d-42ec-ab04-d7f522b6cddc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -150,10 +212,8 @@
 	],
 	"variable": [
 		{
-			"id": "70eef1a6-b123-4bfc-b180-d87695e29707",
 			"key": "host",
 			"value": "localhost:8081"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
