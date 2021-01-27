@@ -15,6 +15,12 @@ public class FactCheckResultDto {
   private String predicate;
   private String object;
 
+  private boolean corpusFactCheckIsSucceed = true;
+  private String corpusFactCheckErrorMessage;
+
+  private boolean graphBaseFactCheckIsSucceed = true;
+  private String graphBaseFactCheckErrorMessage;
+
 
   public void updateIfNotNull(FactCheckResultDto forUpdate) {
     if (forUpdate.pathList != null && forUpdate.pathList.size() > 0) {
@@ -55,6 +61,20 @@ public class FactCheckResultDto {
 
     if (forUpdate.predicate != null) {
       this.predicate = forUpdate.predicate;
+    }
+
+    if (forUpdate.corpusFactCheckIsSucceed != true) {
+      this.corpusFactCheckIsSucceed = forUpdate.corpusFactCheckIsSucceed;
+    }
+    if (forUpdate.corpusFactCheckErrorMessage != null) {
+      this.corpusFactCheckErrorMessage = forUpdate.corpusFactCheckErrorMessage;
+    }
+
+    if (forUpdate.graphBaseFactCheckIsSucceed != true) {
+      this.graphBaseFactCheckIsSucceed = forUpdate.graphBaseFactCheckIsSucceed;
+    }
+    if (forUpdate.graphBaseFactCheckErrorMessage != null) {
+      this.graphBaseFactCheckErrorMessage = forUpdate.graphBaseFactCheckErrorMessage;
     }
   }
 
@@ -162,6 +182,38 @@ public class FactCheckResultDto {
     this.object = object;
   }
 
+
+  public boolean isCorpusFactCheckIsSucceed() {
+    return corpusFactCheckIsSucceed;
+  }
+
+  public void setCorpusFactCheckIsSucceed(boolean corpusFactCheckIsSucceed) {
+    this.corpusFactCheckIsSucceed = corpusFactCheckIsSucceed;
+  }
+
+  public String getCorpusFactCheckErrorMessage() {
+    return corpusFactCheckErrorMessage;
+  }
+
+  public void setCorpusFactCheckErrorMessage(String corpusFactCheckErrorMessage) {
+    this.corpusFactCheckErrorMessage = corpusFactCheckErrorMessage;
+  }
+
+  public boolean isGraphBaseFactCheckIsSucceed() {
+    return graphBaseFactCheckIsSucceed;
+  }
+
+  public void setGraphBaseFactCheckIsSucceed(boolean graphBaseFactCheckIsSucceed) {
+    this.graphBaseFactCheckIsSucceed = graphBaseFactCheckIsSucceed;
+  }
+
+  public String getGraphBaseFactCheckErrorMessage() {
+    return graphBaseFactCheckErrorMessage;
+  }
+
+  public void setGraphBaseFactCheckErrorMessage(String graphBaseFactCheckErrorMessage) {
+    this.graphBaseFactCheckErrorMessage = graphBaseFactCheckErrorMessage;
+  }
 
   @Override
   public int hashCode() {

@@ -30,8 +30,12 @@ public class FactCheckCorpus implements Callable<String> {
 
   @Override
   public String call() throws Exception {
-    String resultCorpus = CorpusFactCheck(subject, object, predicate, serverURL);
-    return resultCorpus;
+    try {
+      String resultCorpus = CorpusFactCheck(subject, object, predicate, serverURL);
+      return resultCorpus;
+    } catch (Exception ex) {
+      return "{\"corpusFactCheckIsSucceed\": \"false\",\"corpusFactCheckErrorMessage\": \"Error\"}";
+    }
   }
 
 }

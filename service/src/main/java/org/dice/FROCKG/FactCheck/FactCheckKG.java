@@ -48,7 +48,12 @@ public class FactCheckKG implements Callable<String> {
 
   @Override
   public String call() throws Exception {
-    String resultKG = KGFactCheck(subject, object, predicate, isVirtualType, pathLength, verbalize);
-    return resultKG;
+    try {
+      String resultKG =
+          KGFactCheck(subject, object, predicate, isVirtualType, pathLength, verbalize);
+      return resultKG;
+    } catch (Exception ex) {
+      return "{\"graphBaseFactCheckIsSucceed\": \"false\",\"graphBaseFactCheckErrorMessage\": \"Error\"}";
+    }
   }
 }
