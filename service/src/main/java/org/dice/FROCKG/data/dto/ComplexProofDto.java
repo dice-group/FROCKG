@@ -1,17 +1,21 @@
 package org.dice.FROCKG.data.dto;
 
-public class ComplexProofDto {
+import java.util.Objects;
+
+public class ComplexProofDto implements Comparable<ComplexProofDto>{
   private String website;
   private String proofPhrase;
+  private double trustworthiness;
 
   public ComplexProofDto() {
 
   }
 
-  public ComplexProofDto(String website, String proofPhrase) {
+  public ComplexProofDto(String website, String proofPhrase, double trustworthiness) {
     super();
     this.website = website;
     this.proofPhrase = proofPhrase;
+    this.trustworthiness = trustworthiness;
   }
 
   public String getWebsite() {
@@ -30,41 +34,49 @@ public class ComplexProofDto {
     this.proofPhrase = proofPhrase;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((proofPhrase == null) ? 0 : proofPhrase.hashCode());
-    result = prime * result + ((website == null) ? 0 : website.hashCode());
-    return result;
+  public double getTrustworthiness() {
+    return trustworthiness;
+  }
+
+  public void setTrustworthiness(double trustworthiness) {
+    this.trustworthiness = trustworthiness;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ComplexProofDto other = (ComplexProofDto) obj;
-    if (proofPhrase == null) {
-      if (other.proofPhrase != null)
-        return false;
-    } else if (!proofPhrase.equals(other.proofPhrase))
-      return false;
-    if (website == null) {
-      if (other.website != null)
-        return false;
-    } else if (!website.equals(other.website))
-      return false;
-    return true;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ComplexProofDto that = (ComplexProofDto) o;
+    return Double.compare(that.getTrustworthiness(), getTrustworthiness()) == 0 &&
+            Objects.equals(getWebsite(), that.getWebsite()) &&
+            Objects.equals(getProofPhrase(), that.getProofPhrase());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getWebsite(), getProofPhrase(), getTrustworthiness());
   }
 
   @Override
   public String toString() {
-    return "ComplexProofDto [website=" + website + ", proofPhrase=" + proofPhrase + "]";
+    return "ComplexProofDto{" +
+            "website='" + website + '\'' +
+            ", trustworthiness=" + trustworthiness +'\'' +
+            ", proofPhrase='" + proofPhrase +
+
+            '}';
   }
 
+  @Override
+  public int compareTo(ComplexProofDto complexProofDto) {
+    if(this.trustworthiness - complexProofDto.trustworthiness == 0){
+      return 0;
+    }
 
+    if(this.trustworthiness - complexProofDto.trustworthiness > 0){
+      return -1;
+    }else{
+      return 1;
+    }
+  }
 }

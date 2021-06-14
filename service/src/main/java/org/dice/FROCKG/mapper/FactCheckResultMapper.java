@@ -43,6 +43,7 @@ public class FactCheckResultMapper {
     for (FactCheckResultDto result : results) {
       mergedResult.updateIfNotNull(result);
     }
+    mergedResult.updateFacadeScore();
     return mergedResult;
   }
 

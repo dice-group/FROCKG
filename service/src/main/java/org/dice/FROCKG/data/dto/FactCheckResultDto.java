@@ -1,9 +1,15 @@
 package org.dice.FROCKG.data.dto;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FactCheckResultDto {
 
+  private final static int maximumNumberOfProofs = 3;
+
+  private double facadeScore;
+  private String explanation;
   private List<PathDto> pathList;
   private double graphScore;
   private RdfTripleDto inputTriple;
@@ -22,6 +28,9 @@ public class FactCheckResultDto {
   private String graphBaseFactCheckErrorMessage;
 
 
+  public void updateFacadeScore(){
+    this.facadeScore = Math.max(this.defactoScore,this.graphScore);
+  }
   public void updateIfNotNull(FactCheckResultDto forUpdate) {
     if (forUpdate.pathList != null && forUpdate.pathList.size() > 0) {
       this.pathList = forUpdate.pathList;
@@ -78,15 +87,77 @@ public class FactCheckResultDto {
     }
   }
 
-  public FactCheckResultDto() {
+/*  We found several sources for the following evidence:
 
+          "AAAAAAAA"
+  We found the following evidence in our reference knowledge base:
+          "B1B1B1B1B1B1B1B1"
+          "B2B2B2B2B2B2B2"
+  We found the following evidence in our reference corpus:
+          "C1C1C1C1C1C1C1C1"
+          "C2C2C2C2C2C2C2"*/
+
+  public void generateExplanation(){
+    this.facadeScore = Math.max(this.defactoScore,this.graphScore);
+    StringBuilder sb = new StringBuilder();
+    //sb.append("We found several sources for the following evidence:\n");
+    sb.append("we check this fact\n");
+    sb.append(subject+" "+predicate+" "+object+"\n");
+
+    if(this.facadeScore<=0){
+      sb.append("we could not find any evidence\n");
+      this.explanation = sb.toString();
+      return;
+    }
+
+    int pathnumber = 0;
+
+    //results from Graph fact check
+    if(pathList!=null) {
+      sb.append("We found the following evidence in our reference knowledge base:\n");
+      pathnumber=Math.min(pathList.size(), maximumNumberOfProofs);
+      Collections.sort(pathList);
+    }else{
+      sb.append("We did not find any evidence in our reference knowledge base\n");
+    }
+
+    for (int i = 0 ; i < pathnumber ; i++){
+      sb.append(pathList.get(i).getPathText());
+      sb.append("\n");
+    }
+
+    //results from text based fact check
+    int textProofnumber = 0;
+    if(complexProofs!=null) {
+      sb.append("We found the following evidence in our reference corpus:\n");
+      textProofnumber=Math.min(complexProofs.size(), maximumNumberOfProofs);
+      Collections.sort(complexProofs);
+    }else{
+      sb.append("We did not find any evidence in our reference corpus\n");
+    }
+
+    for (int i = 0 ; i < textProofnumber ; i++){
+      sb.append(complexProofs.get(i).getProofPhrase().replace("-LRB-","(").replace("-RRB-",")"));
+      sb.append("\n");
+    }
+
+    this.explanation = sb.toString();
   }
 
+  public FactCheckResultDto() {}
+
+  public String getExplanation() {
+    return explanation;
+  }
 
   public List<PathDto> getPathList() {
     return pathList;
   }
 
+
+  public double getFacadeScore() {
+    return facadeScore;
+  }
 
   public void setPathList(List<PathDto> pathList) {
     this.pathList = pathList;

@@ -3,7 +3,7 @@ package org.dice.FROCKG.data.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathDto {
+public class PathDto implements Comparable<PathDto>{
 
   private List<RdfTripleDto> path = new ArrayList<RdfTripleDto>();
 
@@ -81,4 +81,17 @@ public class PathDto {
     return true;
   }
 
+  @Override
+  public int compareTo(PathDto pathDto) {
+
+    if(this.pathScore - pathDto.pathScore == 0){
+      return 0;
+    }
+
+    if(this.pathScore - pathDto.pathScore > 0){
+      return -1;
+    }else{
+      return 1;
+    }
+  }
 }
