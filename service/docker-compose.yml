@@ -1,0 +1,10 @@
+version: '3'
+services:
+  factcheckservice:
+    image: dicegroup/frockg-service:0.0.1
+    ports:
+      - 8080:8080
+    environment:
+      - port=8080
+      - COPAAL.Server=http://localhost:8082/api/v1
+      - FACTCHECK.Server=http://localhost:8888/api

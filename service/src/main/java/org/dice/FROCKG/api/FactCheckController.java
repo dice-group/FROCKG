@@ -58,8 +58,7 @@ public class FactCheckController {
   @GetMapping("/checkFact")
   public ResponseEntity<FactCheckResultDto> checkFact(@Valid FactCheckRequestDto input) {
     final FactCheckResultDto result = factCheckMapper
-        .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate(),
-            input.isVirtualtype(), input.getPathlength(), input.isVerbalize()));
+        .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate()));
     result.generateExplanation();
     return ResponseEntity.ok(result);
   }
@@ -67,8 +66,7 @@ public class FactCheckController {
   @GetMapping("/checkFactSimple")
   public ResponseEntity<String> checkFactSimple(@Valid FactCheckRequestDto input) {
     final FactCheckResultDto result = factCheckMapper
-            .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate(),
-                    input.isVirtualtype(), input.getPathlength(), input.isVerbalize()));
+            .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate()));
     result.generateExplanation();
     return ResponseEntity.ok(result.getExplanation());
   }

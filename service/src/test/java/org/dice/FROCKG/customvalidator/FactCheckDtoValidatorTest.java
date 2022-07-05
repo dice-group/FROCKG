@@ -23,8 +23,6 @@ public class FactCheckDtoValidatorTest {
     r.setObject("http://dbpedia.org/resource/a");
     r.setSubject("http://dbpedia.org/resource/b");
     r.setPredicate("http://dbpedia.org/resource/c");
-    r.setVirtualtype(false);
-    r.setPathlength(2);
     Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
     Assertions.assertEquals(0, violations.size());
   }
@@ -35,8 +33,6 @@ public class FactCheckDtoValidatorTest {
     r.setObject("a");
     r.setSubject("http://dbpedia.org/resource/b");
     r.setPredicate("http://dbpedia.org/resource/c");
-    r.setVirtualtype(false);
-    r.setPathlength(2);
     Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
     Assertions.assertEquals(1, violations.size());
   }
@@ -47,8 +43,6 @@ public class FactCheckDtoValidatorTest {
     r.setObject("http://dbpedia.org/resource/a");
     r.setSubject("b");
     r.setPredicate("http://dbpedia.org/resource/c");
-    r.setVirtualtype(false);
-    r.setPathlength(2);
     Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
     Assertions.assertEquals(1, violations.size());
   }
@@ -59,32 +53,7 @@ public class FactCheckDtoValidatorTest {
     r.setObject("http://dbpedia.org/resource/a");
     r.setSubject("http://dbpedia.org/resource/b");
     r.setPredicate("c");
-    r.setVirtualtype(false);
-    r.setPathlength(2);
     Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
     Assertions.assertEquals(1, violations.size());
-  }
-
-  @Test
-  public void FactCheckDtoValidator_WhenCallcheckFactWithNotValidPathLenght_ShouldReturnError() {
-    FactCheckRequestDto r = new FactCheckRequestDto();
-    r.setObject("http://dbpedia.org/resource/a");
-    r.setSubject("http://dbpedia.org/resource/b");
-    r.setPredicate("http://dbpedia.org/resource/c");
-    r.setVirtualtype(false);
-    r.setPathlength(4);
-    Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
-    Assertions.assertEquals(1, violations.size());
-  }
-
-  @Test
-  public void FactCheckDtoValidator_WhenCallcheckFactWithNullPathLenght_ShouldNotReturnError() {
-    FactCheckRequestDto r = new FactCheckRequestDto();
-    r.setObject("http://dbpedia.org/resource/a");
-    r.setSubject("http://dbpedia.org/resource/b");
-    r.setPredicate("http://dbpedia.org/resource/c");
-    r.setVirtualtype(false);
-    Set<ConstraintViolation<FactCheckRequestDto>> violations = validator.validate(r);
-    Assertions.assertEquals(0, violations.size());
   }
 }

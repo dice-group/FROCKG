@@ -10,8 +10,9 @@ public class FactCheckResultDto {
 
   private double facadeScore;
   private String explanation;
-  private List<PathDto> pathList;
-  private double graphScore;
+  //private List<PathDto> pathList;
+  private List<Evidence> piecesOfEvidence;
+  private double veracityValue;
   private RdfTripleDto inputTriple;
   private String taskid;
   private String filedata;
@@ -29,15 +30,15 @@ public class FactCheckResultDto {
 
 
   public void updateFacadeScore(){
-    this.facadeScore = Math.max(this.defactoScore,this.graphScore);
+    this.facadeScore = Math.max(this.defactoScore,this.veracityValue);
   }
   public void updateIfNotNull(FactCheckResultDto forUpdate) {
-    if (forUpdate.pathList != null && forUpdate.pathList.size() > 0) {
-      this.pathList = forUpdate.pathList;
+    if (forUpdate.piecesOfEvidence != null && forUpdate.piecesOfEvidence.size() > 0) {
+      this.piecesOfEvidence = forUpdate.piecesOfEvidence;
     }
 
-    if (forUpdate.graphScore != 0) {
-      this.graphScore = forUpdate.graphScore;
+    if (forUpdate.veracityValue != 0) {
+      this.veracityValue = forUpdate.veracityValue;
     }
 
     if (forUpdate.inputTriple != null) {
@@ -98,7 +99,7 @@ public class FactCheckResultDto {
           "C2C2C2C2C2C2C2"*/
 
   public void generateExplanation(){
-    this.facadeScore = Math.max(this.defactoScore,this.graphScore);
+    this.facadeScore = Math.max(this.defactoScore,this.veracityValue);
     StringBuilder sb = new StringBuilder();
     //sb.append("We found several sources for the following evidence:\n");
     sb.append("we check this fact\n");
@@ -113,16 +114,16 @@ public class FactCheckResultDto {
     int pathnumber = 0;
 
     //results from Graph fact check
-    if(pathList!=null) {
+    if(piecesOfEvidence!=null) {
       sb.append("We found the following evidence in our reference knowledge base:\n");
-      pathnumber=Math.min(pathList.size(), maximumNumberOfProofs);
-      Collections.sort(pathList);
+      pathnumber=Math.min(piecesOfEvidence.size(), maximumNumberOfProofs);
+      Collections.sort(piecesOfEvidence);
     }else{
       sb.append("We did not find any evidence in our reference knowledge base\n");
     }
 
     for (int i = 0 ; i < pathnumber ; i++){
-      sb.append(pathList.get(i).getPathText());
+      sb.append(piecesOfEvidence.get(i).toString());
       sb.append("\n");
     }
 
@@ -150,29 +151,27 @@ public class FactCheckResultDto {
     return explanation;
   }
 
-  public List<PathDto> getPathList() {
-    return pathList;
+
+  public List<Evidence> getPiecesOfEvidence() {
+    return piecesOfEvidence;
   }
 
+  public void setPiecesOfEvidence(List<Evidence> piecesOfEvidence) {
+    this.piecesOfEvidence = piecesOfEvidence;
+  }
 
   public double getFacadeScore() {
     return facadeScore;
   }
 
-  public void setPathList(List<PathDto> pathList) {
-    this.pathList = pathList;
+
+  public double getVeracityValue() {
+    return veracityValue;
   }
 
-
-  public double getGraphScore() {
-    return graphScore;
+  public void setVeracityValue(double veracityValue) {
+    this.veracityValue = veracityValue;
   }
-
-
-  public void setGraphScore(double graphScore) {
-    this.graphScore = graphScore;
-  }
-
 
   public RdfTripleDto getInputTriple() {
     return inputTriple;
@@ -286,91 +285,8 @@ public class FactCheckResultDto {
     this.graphBaseFactCheckErrorMessage = graphBaseFactCheckErrorMessage;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((complexProofs == null) ? 0 : complexProofs.hashCode());
-    long temp;
-    temp = Double.doubleToLongBits(defactoScore);
-    result = prime * result + (int) (temp ^ (temp >>> 32));
-    result = prime * result + ((filedata == null) ? 0 : filedata.hashCode());
-    temp = Double.doubleToLongBits(graphScore);
-    result = prime * result + (int) (temp ^ (temp >>> 32));
-    result = prime * result + ((inputTriple == null) ? 0 : inputTriple.hashCode());
-    result = prime * result + ((object == null) ? 0 : object.hashCode());
-    result = prime * result + ((pathList == null) ? 0 : pathList.hashCode());
-    result = prime * result + ((predicate == null) ? 0 : predicate.hashCode());
-    result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-    result = prime * result + ((taskid == null) ? 0 : taskid.hashCode());
-    return result;
-  }
 
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    FactCheckResultDto other = (FactCheckResultDto) obj;
-    if (complexProofs == null) {
-      if (other.complexProofs != null)
-        return false;
-    } else if (!complexProofs.equals(other.complexProofs))
-      return false;
-    if (Double.doubleToLongBits(defactoScore) != Double.doubleToLongBits(other.defactoScore))
-      return false;
-    if (filedata == null) {
-      if (other.filedata != null)
-        return false;
-    } else if (!filedata.equals(other.filedata))
-      return false;
-    if (Double.doubleToLongBits(graphScore) != Double.doubleToLongBits(other.graphScore))
-      return false;
-    if (inputTriple == null) {
-      if (other.inputTriple != null)
-        return false;
-    } else if (!inputTriple.equals(other.inputTriple))
-      return false;
-    if (object == null) {
-      if (other.object != null)
-        return false;
-    } else if (!object.equals(other.object))
-      return false;
-    if (pathList == null) {
-      if (other.pathList != null)
-        return false;
-    } else if (!pathList.equals(other.pathList))
-      return false;
-    if (predicate == null) {
-      if (other.predicate != null)
-        return false;
-    } else if (!predicate.equals(other.predicate))
-      return false;
-    if (subject == null) {
-      if (other.subject != null)
-        return false;
-    } else if (!subject.equals(other.subject))
-      return false;
-    if (taskid == null) {
-      if (other.taskid != null)
-        return false;
-    } else if (!taskid.equals(other.taskid))
-      return false;
-    return true;
-  }
-
-
-  @Override
-  public String toString() {
-    return "FactCheckResultDto [pathList=" + pathList + ", graphScore=" + graphScore
-        + ", inputTriple=" + inputTriple + ", taskid=" + taskid + ", filedata=" + filedata
-        + ", defactoScore=" + defactoScore + ", complexProofs=" + complexProofs + ", subject="
-        + subject + ", predicate=" + predicate + ", object=" + object + "]";
-  }
 
 
 

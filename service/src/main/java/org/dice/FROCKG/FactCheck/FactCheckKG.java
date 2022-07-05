@@ -7,34 +7,25 @@ public class FactCheckKG implements Callable<String> {
   private final String subject;
   private final String object;
   private final String predicate;
-  private final boolean isVirtualType;
-  private final int pathLength;
   private final String serverURL;
-  private final boolean verbalize;
 
-  public FactCheckKG(String subject, String object, String predicate, boolean isVirtualType,
-      int pathLength, String serverURL, boolean verbalize) {
+  public FactCheckKG(String subject, String object, String predicate, String serverURL) {
     this.subject = subject;
     this.object = object;
     this.predicate = predicate;
-    this.isVirtualType = isVirtualType;
-    this.pathLength = pathLength;
     this.serverURL = serverURL;
-    this.verbalize = verbalize;
   }
 
-  private String KGFactCheck(String subject, String object, String predicate, boolean isVirtualType,
-      int pathLength, boolean verbalize) {
+  private String KGFactCheck(String subject, String object, String predicate) {
 
     String pathGeneratorType = handlePathGenerator(predicate);
 
     String url = serverURL + "/validate"
-        + "?subject={subject}&property={predicate}&object={object}&pathgeneratortype={pathGeneratorType}&virtualType={isVirtualType}&pathlength={pathLength}&verbalize={verbalize}";
+        + "?subject={subject}&property={predicate}&object={object}";
 
     RestTemplate restTemplate = new RestTemplate();
 
-    String result = restTemplate.getForObject(url, String.class, subject, predicate, object,
-        pathGeneratorType, isVirtualType, pathLength, verbalize);
+    String result = restTemplate.getForObject(url, String.class, subject, predicate, object, pathGeneratorType);
 
     return result;
   }
@@ -50,7 +41,7 @@ public class FactCheckKG implements Callable<String> {
   public String call() throws Exception {
     try {
       String resultKG =
-          KGFactCheck(subject, object, predicate, isVirtualType, pathLength, verbalize);
+          KGFactCheck(subject, object, predicate);
       return resultKG;
     } catch (Exception ex) {
       return "{\"graphBaseFactCheckIsSucceed\": \"false\",\"graphBaseFactCheckErrorMessage\": \"Error\"}";

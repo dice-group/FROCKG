@@ -17,13 +17,10 @@ public class FactCheckServiceTest {
     String object = "http://dbpedia.org/resource/United_States";
     String subject = "http://dbpedia.org/resource/Bill_Gates";
     String predicate = "http://dbpedia.org/ontology/nationalityt";
-    boolean isVirtualType = false;
-    int pathLength = 2;
-    boolean verbalize = false;
 
     Assertions.assertDoesNotThrow(
         () -> {
-          service.checkFact(subject, object, predicate, isVirtualType, pathLength, verbalize);
+          service.checkFact(subject, object, predicate);
         });
   }
 }

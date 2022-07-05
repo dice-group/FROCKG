@@ -45,11 +45,11 @@ public class FactCheckResultMapperTest {
   }*/
 
   @Test
-  public void FactCheckResultMapper_IfServicesAreDown_ShouldMappDtoToJson() {
+  public void FactCheckResultMapper_IfServicesAreDown_ShouldMapDtoToJson() {
 
 
     String expected =
-        "{\"explanation\":null,\"pathList\":null,\"graphScore\":0.0,\"inputTriple\":null,\"taskid\":null,\"filedata\":null,\"defactoScore\":0.0,\"complexProofs\":null,\"subject\":null,\"predicate\":null,\"object\":null,\"corpusFactCheckIsSucceed\":false,\"corpusFactCheckErrorMessage\":\"msg\",\"graphBaseFactCheckIsSucceed\":false,\"graphBaseFactCheckErrorMessage\":\"msg\"}";
+        "{\"facadeScore\":0.0,\"explanation\":null,\"pathList\":null,\"graphScore\":0.0,\"inputTriple\":null,\"taskid\":null,\"filedata\":null,\"defactoScore\":0.0,\"complexProofs\":null,\"subject\":null,\"predicate\":null,\"object\":null,\"corpusFactCheckIsSucceed\":false,\"corpusFactCheckErrorMessage\":\"msg\",\"graphBaseFactCheckIsSucceed\":false,\"graphBaseFactCheckErrorMessage\":\"msg\"}";
 
     try {
       FactCheckResultDto factCheckResult = factCheckMapper.ToDto(expected);
