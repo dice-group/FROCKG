@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.dice</groupId>
-	<artifactId>FROCKG</artifactId>
+	<artifactId>frockg</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FROCKG</name>
+	<name>frockg</name>
 	<description>FROCKG service layer</description>
 
 	<properties>
