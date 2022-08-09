@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 public class FactCheckResultDto {
 
   private final static int maximumNumberOfProofs = 3;
+  private final static boolean ADD_CLAIM_TO_EXPLANATION = false;
+  private final static boolean REDUCE_EXPLANATION_IF_FACT_WAS_FOUND = true;
+  private final static boolean PRINT_TEXT_IF_NOTHING_FOUND = false;
+  private final static boolean USE_WE_FORMULATION = false;
 
   private double facadeScore;
   private String explanation;
@@ -101,11 +105,19 @@ public class FactCheckResultDto {
     this.facadeScore = Math.max(this.defactoScore,this.graphScore);
     StringBuilder sb = new StringBuilder();
     //sb.append("We found several sources for the following evidence:\n");
-    sb.append("we check this fact\n");
-    sb.append(subject+" "+predicate+" "+object+"\n");
+    if(ADD_CLAIM_TO_EXPLANATION) {
+        sb.append("We checked this fact: ");
+        sb.append(subject);
+        sb.append(' ');
+        sb.append(predicate);
+        sb.append(' ');
+        sb.append(object);
+        sb.append('\n');
+    }
 
     if(this.facadeScore<=0){
-      sb.append("we could not find any evidence\n");
+      sb.append(USE_WE_FORMULATION ? "We " : "I ");
+      sb.append("could not find any evidence.");
       this.explanation = sb.toString();
       return;
     }
@@ -114,11 +126,29 @@ public class FactCheckResultDto {
 
     //results from Graph fact check
     if(pathList!=null) {
-      sb.append("We found the following evidence in our reference knowledge base:\n");
       pathnumber=Math.min(pathList.size(), maximumNumberOfProofs);
       Collections.sort(pathList);
-    }else{
-      sb.append("We did not find any evidence in our reference knowledge base\n");
+      if(REDUCE_EXPLANATION_IF_FACT_WAS_FOUND) {
+        List<RdfTripleDto> bestPath = pathList.get(0).getPath();
+        if((bestPath.size() == 1) && (predicate.equals(bestPath.get(0).getProperty()))
+                && (subject.equals(bestPath.get(0).getSubject()))
+                && (object.equals(bestPath.get(0).getObject()))) {
+          // We found the claim in our KG --> just print that without other paths
+          pathnumber = 1;
+        }
+      } else {
+          if(USE_WE_FORMULATION) {
+              sb.append("We found the following evidence in our reference knowledge base:\n");              
+          } else {
+              sb.append("In my knowledge base, I found the following fact that backs up this claim:\n");
+          }
+      }
+    } else if (PRINT_TEXT_IF_NOTHING_FOUND) {
+        if(USE_WE_FORMULATION) {
+            sb.append("We did not find any evidence in our reference knowledge base\n");
+        } else {
+            sb.append("I did not find any evidence in our reference knowledge base\n");
+        }
     }
 
     for (int i = 0 ; i < pathnumber ; i++){
@@ -129,10 +159,22 @@ public class FactCheckResultDto {
     //results from text based fact check
     int textProofnumber = 0;
     if(complexProofs!=null) {
-      sb.append("We found the following evidence in our reference corpus:\n");
+      if(pathnumber > 0) {
+          if(USE_WE_FORMULATION) {
+            sb.append("In addition, we found the following evidence in our reference corpus:\n");
+          } else {
+            sb.append("In addition, I found the following pieces of text that could serve as evidence:\n");
+          }
+      } else {
+          if(USE_WE_FORMULATION) {
+            sb.append("We found the following evidence in our reference corpus:\n");
+          } else {
+            sb.append("I found the following pieces of text that could serve as evidence:\n");
+          }
+      }
       textProofnumber=Math.min(complexProofs.size(), maximumNumberOfProofs);
       Collections.sort(complexProofs);
-    }else{
+    } else if (PRINT_TEXT_IF_NOTHING_FOUND) {
       sb.append("We did not find any evidence in our reference corpus\n");
     }
 
