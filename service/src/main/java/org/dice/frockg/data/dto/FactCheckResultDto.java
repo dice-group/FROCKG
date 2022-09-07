@@ -17,7 +17,7 @@ public class FactCheckResultDto {
   private String taskid;
   private String filedata;
   private double defactoScore;
-  private List<ComplexProofDto> complexProofs;
+  private List<ComplexProof> complexProofs;
   private String subject;
   private String predicate;
   private String object;
@@ -225,12 +225,12 @@ public class FactCheckResultDto {
   }
 
 
-  public List<ComplexProofDto> getComplexProofs() {
+  public List<ComplexProof> getComplexProofs() {
     return complexProofs;
   }
 
 
-  public void setComplexProofs(List<ComplexProofDto> complexProofs) {
+  public void setComplexProofs(List<ComplexProof> complexProofs) {
     this.complexProofs = complexProofs;
   }
 

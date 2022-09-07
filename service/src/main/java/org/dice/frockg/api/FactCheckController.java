@@ -3,11 +3,10 @@ package org.dice.frockg.api;
 import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dice.frockg.Service.FactCheckService;
-import org.dice.frockg.Service.InfrastructureMonitoringService;
-import org.dice.frockg.data.dto.FactCheckRequestDto;
-import org.dice.frockg.data.dto.FactCheckResultDto;
-import org.dice.frockg.mapper.FactCheckResultMapper;
+import org.dice.frockg.service.FactCheckService;
+import org.dice.frockg.data.dto.*;
+import org.dice.frockg.mapper.*;
+import org.dice.frockg.service.InfrastructureMonitoringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +24,7 @@ public class FactCheckController {
   private FactCheckService service;
 
   @Autowired
-  FactCheckResultMapper factCheckMapper;
+  FacadeResultMapper mapper;
 
   @Autowired
   private InfrastructureMonitoringService monitorService;
@@ -55,21 +54,19 @@ public class FactCheckController {
     return "FACTCHECK service is disconnected!";
   }
 
-  @GetMapping("/checkFact")
-  public ResponseEntity<FactCheckResultDto> checkFact(@Valid FactCheckRequestDto input) {
-    final FactCheckResultDto result = factCheckMapper
-        .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate()));
-    result.generateExplanation();
+  @GetMapping("/requestFactChecking")
+  public ResponseEntity<Object> requestFactChecking(@Valid FactCheckRequestDto input) {
+    FactCheckingTicketDto ticket = service.requestFactChecking(input.getSubject(), input.getObject(), input.getPredicate());
+    return ResponseEntity.ok(ticket);
+  }
+
+  @GetMapping("/retrieveResult")
+  public ResponseEntity<Object> retrieveResult(@Valid String taskId) {
+    FacadeResultDto result = mapper.map(service.retrieveResult(taskId));
+    //result.generateExplanation();
     return ResponseEntity.ok(result);
   }
 
-  @GetMapping("/checkFactSimple")
-  public ResponseEntity<String> checkFactSimple(@Valid FactCheckRequestDto input) {
-    final FactCheckResultDto result = factCheckMapper
-            .ToDto(service.checkFact(input.getSubject(), input.getObject(), input.getPredicate()));
-    result.generateExplanation();
-    return ResponseEntity.ok(result.getExplanation());
-  }
 
   @GetMapping("/checkKG")
   public String checkKG(@RequestParam(value = "sparql", required = true) String sparql,

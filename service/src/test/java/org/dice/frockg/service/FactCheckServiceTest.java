@@ -1,4 +1,4 @@
-package org.dice.frockg.Service;
+package org.dice.frockg.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class FactCheckServiceTest {
-  @Autowired FactCheckService service;
+  @Autowired
+  FactCheckService service;
 
   @Test
   void FactCheck_ArgumentsAreValid_ShouldNotThrowError() {
@@ -20,7 +21,7 @@ public class FactCheckServiceTest {
 
     Assertions.assertDoesNotThrow(
         () -> {
-          service.checkFact(subject, object, predicate);
+          service.requestFactChecking(subject, object, predicate);
         });
   }
 }

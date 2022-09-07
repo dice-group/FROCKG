@@ -2,16 +2,16 @@ package org.dice.frockg.data.dto;
 
 import java.util.Objects;
 
-public class ComplexProofDto implements Comparable<ComplexProofDto>{
+public class ComplexProof implements Comparable<ComplexProof>{
   private String website;
   private String proofPhrase;
   private double trustworthiness;
 
-  public ComplexProofDto() {
+  public ComplexProof() {
 
   }
 
-  public ComplexProofDto(String website, String proofPhrase, double trustworthiness) {
+  public ComplexProof(String website, String proofPhrase, double trustworthiness) {
     super();
     this.website = website;
     this.proofPhrase = proofPhrase;
@@ -46,7 +46,7 @@ public class ComplexProofDto implements Comparable<ComplexProofDto>{
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ComplexProofDto that = (ComplexProofDto) o;
+    ComplexProof that = (ComplexProof) o;
     return Double.compare(that.getTrustworthiness(), getTrustworthiness()) == 0 &&
             Objects.equals(getWebsite(), that.getWebsite()) &&
             Objects.equals(getProofPhrase(), that.getProofPhrase());
@@ -68,12 +68,12 @@ public class ComplexProofDto implements Comparable<ComplexProofDto>{
   }
 
   @Override
-  public int compareTo(ComplexProofDto complexProofDto) {
-    if(this.trustworthiness - complexProofDto.trustworthiness == 0){
+  public int compareTo(ComplexProof complexProof) {
+    if(this.trustworthiness - complexProof.trustworthiness == 0){
       return 0;
     }
 
-    if(this.trustworthiness - complexProofDto.trustworthiness > 0){
+    if(this.trustworthiness - complexProof.trustworthiness > 0){
       return -1;
     }else{
       return 1;

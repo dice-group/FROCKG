@@ -1,17 +1,23 @@
 package org.dice.frockg.data.dto;
 
+import java.util.List;
+
 public class Evidence implements Comparable<Evidence> {
     private double score;
     private String evidence;
+    private List<SubPathDto> pathEvidences;
     private String verbalization;
+    private String source;
 
     public Evidence() {
     }
 
-    public Evidence(double score, String evidence, String verbalization) {
+    public Evidence(double score, String evidence,List<SubPathDto> pathEvidences, String verbalization, String source) {
         this.score = score;
         this.evidence = evidence;
+        this.pathEvidences = pathEvidences;
         this.verbalization = verbalization;
+        this.source = source;
     }
 
     public double getScore() {
@@ -30,6 +36,14 @@ public class Evidence implements Comparable<Evidence> {
         this.evidence = evidence;
     }
 
+    public List<SubPathDto> getPathEvidences() {
+        return pathEvidences;
+    }
+
+    public void setPathEvidences(List<SubPathDto> pathEvidences) {
+        this.pathEvidences = pathEvidences;
+    }
+
     public String getVerbalization() {
         return verbalization;
     }
@@ -38,12 +52,40 @@ public class Evidence implements Comparable<Evidence> {
         this.verbalization = verbalization;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     @Override
     public String toString() {
-        return "Evidence{" +
-                "score=" + score +
-                ", evidence='" + evidence + '\'' +
-                ", verbalization='" + verbalization + '\'' +
+        StringBuilder pathEvidencesSb = new StringBuilder();
+
+        for(int i = 0 ; i < pathEvidences.size();i++){
+            pathEvidencesSb.append("{");
+            pathEvidencesSb.append("\"property\":\"").append(pathEvidences.get(i).getProperty()).append("\",");
+            pathEvidencesSb.append("\"inverse\":");
+            if(pathEvidences.get(i).isInverse()){
+                pathEvidencesSb.append("true");
+            }else{
+                pathEvidencesSb.append("false");
+            }
+            pathEvidencesSb.append("}");
+            if(i+1<pathEvidences.size()){
+                pathEvidencesSb.append(",");
+            }
+
+        }
+
+        return "{" +
+                "\"score\":" + score +
+                ", \"evidence\":\"" + evidence + '\"' +
+                ", \"pathEvidences\":[" + pathEvidencesSb.toString() +"]"+
+                ", \"verbalization\":\"" + verbalization + '\"' +
+                ", \"source\":\"" + source + '\"' +
                 '}';
     }
 

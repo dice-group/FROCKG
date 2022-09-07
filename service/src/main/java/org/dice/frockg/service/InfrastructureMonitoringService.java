@@ -1,4 +1,4 @@
-package org.dice.frockg.Service;
+package org.dice.frockg.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
