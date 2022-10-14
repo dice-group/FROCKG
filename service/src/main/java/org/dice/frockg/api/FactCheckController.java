@@ -8,6 +8,7 @@ import org.dice.frockg.data.dto.*;
 import org.dice.frockg.mapper.*;
 import org.dice.frockg.service.InfrastructureMonitoringService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,20 +39,20 @@ public class FactCheckController {
 
   // To verify status of Copaal server
   @RequestMapping("/copaaltest")
-  public String copaaltest() {
+  public ResponseEntity<String> copaaltest() {
     if (monitorService.pingCopaal()) {
-      return "OK!";
+      return ResponseEntity.ok("OK!");
     }
-    return "COPAAL service is disconnected!";
+    return ResponseEntity.status(500).body("COPAAL service is disconnected!");
   }
 
   // To verify status of FactCheck server
   @RequestMapping("/factchecktest")
-  public String factchecktest() {
+  public ResponseEntity<String> factchecktest() {
     if (monitorService.pingFactCheck()) {
-      return "OK!";
+      return ResponseEntity.ok("OK!");
     }
-    return "FACTCHECK service is disconnected!";
+    return ResponseEntity.status(500).body("FACTCHECK service is disconnected!");
   }
 
   @GetMapping("/requestFactChecking")
