@@ -1,0 +1,11 @@
+<!--<app-graph-view [graphData]="getGraphData()"></app-graph-view>-->
+<div fxFlexFill>
+  <div fxLayout="row" style="height: 5%">
+    <app-monitor-connections></app-monitor-connections>
+  </div>
+  <hr/>
+  <!--<div *ngIf="showGraph; then graphblock else inputblock" fxLayout="row" style="height: 95%"> </div>-->
+  <div *ngIf="showAppUserForm"><app-user-form></app-user-form></div>
+  <div *ngIf="showAppResultView"><app-result-view [ticketId]="getTicketId()"></app-result-view></div>
+  <div *ngIf="showAppTicketView"><app-ticket-view [ticketId]="getTicketId()"></app-ticket-view></div>
+</div >
