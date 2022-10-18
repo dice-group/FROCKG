@@ -6,10 +6,9 @@ import {CgData} from '../../model/cg-data';
   providedIn: 'root'
 })
 export class EventProviderService {
-  viewChangeEvent = new EventEmitter<boolean>();
-  sendDetailEvent = new EventEmitter<CgPath[]>();
-  detailClickEvent = new EventEmitter<number>();
-  pathClickEvent = new EventEmitter<number>();
-  updateDataEvent = new EventEmitter<CgData>();
+  submitFormEvent = new EventEmitter<string>();
+  submitTicketEvent = new EventEmitter<string>();
+  btnBackEvent = new EventEmitter<void>();
+  //updateDataEvent = new EventEmitter<CgData>();
   constructor() { }
 }

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {EventProviderService} from '../../service/event/event-provider.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestService} from '../../service/rest/rest.service';
 import {CgTriple} from '../../model/cg-triple';
-import {GraphViewComponent} from '../graph-view/graph-view.component';
 import {MatDialog, MatSelectChange} from '@angular/material';
 import {HelpDescComponent} from '../help-desc/help-desc.component';
 
@@ -17,7 +16,7 @@ export class UserFormComponent implements OnInit {
   subjectFc: FormControl;
   propertyFc: FormControl;
   objectFc: FormControl;
-  verbalizeFc: FormControl;
+  ticketIdFC: FormControl;
 
   public showBar = false;
 
@@ -36,35 +35,31 @@ export class UserFormComponent implements OnInit {
     this.subjectFc = new FormControl(this.exampleArr[0].subject, Validators.required);
     this.propertyFc = new FormControl(this.exampleArr[0].property, Validators.required);
     this.objectFc = new FormControl(this.exampleArr[0].object, Validators.required);
-    this.verbalizeFc =  new FormControl(false);
     this.complexForm = fb.group({
       'subject' : this.subjectFc,
-      'property': this.propertyFc,
-      'object' : this.objectFc,
-      'verbalize' : this.verbalizeFc
+      'predicate': this.propertyFc,
+      'object' : this.objectFc
     });
   }
+
 
   ngOnInit() {
     this.restService.requestEvnt.subscribe(val => { this.toggleProgressBar(val); });
   }
+
   toggleProgressBar(showBar) {
     this.showBar = showBar;
   }
 
-  showGraph() {
-    this.eventService.viewChangeEvent.emit( true );
-  }
 
   submitForm(value: any): void {
-    this.restService.getRequest('validate', value).subscribe((jsonVal) => {
-      this.eventService.updateDataEvent.emit(jsonVal);
-      this.eventService.viewChangeEvent.emit( true );
+    console.log('Start factchecking');
+    this.restService.getRequest('/requestFactChecking', value).subscribe((jsonVal) => {
+      console.log('factchecking result is here ');
+      console.log(jsonVal);
+      this.eventService.submitFormEvent.emit( jsonVal.taskId);
     });
-  }
-
-  getUriStr(uri: string) {
-    return GraphViewComponent.getUriName(uri);
+    console.log('end factchecking');
   }
 
   selectChange(event: MatSelectChange) {
@@ -77,5 +72,9 @@ export class UserFormComponent implements OnInit {
   openHelpPopup() {
     this.dialog.open(HelpDescComponent);
   }
-
+  retrieveResultByTicketId() {
+    const ticketID = (document.getElementById('ticketIdForRetrieve') as HTMLInputElement).value;
+    console.log(ticketID);
+    this.eventService.submitTicketEvent.emit(ticketID);
+  }
 }

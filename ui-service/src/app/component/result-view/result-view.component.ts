@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CgData} from '../../model/cg-data';
 import {EventProviderService} from '../../service/event/event-provider.service';
-import {HelpDescComponent} from '../help-desc/help-desc.component';
 import {MatDialog} from '@angular/material';
-import {GraphDescComponent} from '../graph-desc/graph-desc.component';
+import {RestService} from '../../service/rest/rest.service';
 
 @Component({
   selector: 'app-result-view',
@@ -12,18 +11,32 @@ import {GraphDescComponent} from '../graph-desc/graph-desc.component';
 })
 export class ResultViewComponent implements OnInit {
   @Input()
-  graphData: CgData;
-  constructor(public eventService: EventProviderService,  public dialog: MatDialog) { }
+  ticketId: string;
+  facadeResult: any;
+  constructor(public eventService: EventProviderService, public restService: RestService) { }
 
   ngOnInit() {
+    console.log('Start retrieve the result');
+    this.getResult();
   }
 
   showForm() {
-    this.eventService.viewChangeEvent.emit( false );
+    this.eventService.btnBackEvent.emit( );
   }
 
-  openInfoPopup() {
-    this.dialog.open(GraphDescComponent);
+  retry() {
+    this.getResult();
+  }
+
+  getResult() {
+    console.log('this.ticketId is ' + this.ticketId);
+    this.restService.getRequest('/retrieveResult', {taskId: this.ticketId}).subscribe((jsonVal) => {
+      console.log('factchecking result is here ');
+      console.log(jsonVal);
+      this.facadeResult = jsonVal;
+      // JSON.stringify(jsonVal);
+    });
+    console.log('end retrieve');
   }
 
 }

@@ -2,6 +2,12 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
+
+export interface Response {
+  status: number,
+  message: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +39,7 @@ export class RestService implements HttpInterceptor {
     return this.http.get(this.getFullUrl(path));
   }
 
+
   public getRequest(path: string, prmobj: object): Observable<any> {
     let params = new HttpParams();
     for (const x in prmobj) {
@@ -40,8 +47,8 @@ export class RestService implements HttpInterceptor {
         params = params.set(x, prmobj[x]);
       }
     }
-    this.requestEvnt.emit(true);
-    const reqObs = this.http.get(this.getFullUrl(path), {params: params});
+
+    const reqObs = this.http.get<Response>(this.getFullUrl(path), {params: params});
     return reqObs;
   }
 }

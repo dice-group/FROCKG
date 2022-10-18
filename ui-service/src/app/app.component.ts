@@ -1,6 +1,5 @@
-import {AfterContentInit, Component} from '@angular/core';
+import {AfterContentInit, Component, OnInit} from '@angular/core';
 
-import {GRAPHDATA} from './model/mock-data';
 import {EventProviderService} from './service/event/event-provider.service';
 import {CgData} from './model/cg-data';
 import {CgTriple} from './model/cg-triple';
@@ -9,25 +8,55 @@ import {CgTriple} from './model/cg-triple';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  graphData: CgData;
-  showGraph = false;
+export class AppComponent implements OnInit{
   title = 'cg-ui';
+  ticketId: string;
+
+  public showAppResultView = true;
+  public showAppUserForm = true;
+  public showAppTicketView = true;
+
   constructor(eventService: EventProviderService) {
-    this.graphData = GRAPHDATA;
-    eventService.viewChangeEvent.subscribe((graphBool: boolean) => {
-      this.setShowGraph(graphBool);
+    eventService.submitTicketEvent.subscribe((ticket: string) => {
+      this.submitTicketEventRaised(ticket);
     });
 
-    eventService.updateDataEvent.subscribe((graphData: CgData) => {
-      this.graphData = graphData;
+    eventService.submitFormEvent.subscribe((taskId: string) => {
+      this.submitFormEventRaised(taskId);
+    });
+
+    eventService.btnBackEvent.subscribe(() => {
+      this.btnBackEventRaised();
     });
   }
-  getGraphData() {
-    return this.graphData;
+
+  submitTicketEventRaised(ticketId: string) {
+    this.showAppResultView = true;
+    this.showAppUserForm = false;
+    this.showAppTicketView = false;
+    this.ticketId = ticketId;
+  }
+  submitFormEventRaised(ticketId: string) {
+    this.showAppResultView = false;
+    this.showAppUserForm = false;
+    this.showAppTicketView = true;
+    this.ticketId = ticketId;
   }
 
-  setShowGraph(val: boolean) {
-    this.showGraph = val;
+  btnBackEventRaised(){
+    this.showAppResultView = false;
+    this.showAppUserForm = true;
+    this.showAppTicketView = false;
   }
+
+  getTicketId(){
+    return this.ticketId;
+  }
+
+  ngOnInit(){
+    this.showAppResultView = false;
+    this.showAppUserForm = true;
+    this.showAppTicketView = false;
+  }
+
 }
