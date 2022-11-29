@@ -20,10 +20,11 @@ public class InfrastructureMonitoringService {
   public boolean pingCopaal() {
     try {
       String url = COPAALServerUrl + "/test";
-
+      logger.info("ping url is :"+ url);
       RestTemplate restTemplate = new RestTemplate();
 
       String result = restTemplate.getForObject(url, String.class);
+      logger.info("rest Template result is :"+ result);
 
       if (result.toLowerCase().equals("ok!")) {
         logger.info("COPAAL is up");

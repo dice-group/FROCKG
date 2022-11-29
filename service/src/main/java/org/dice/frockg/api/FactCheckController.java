@@ -1,5 +1,8 @@
 package org.dice.frockg.api;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/service/")
 public class FactCheckController {
 
   Logger logger = LogManager.getLogger(FactCheckController.class);
@@ -32,14 +35,16 @@ public class FactCheckController {
 
   // To verify status of server
   @RequestMapping("/default")
-  public String defaultpage() {
+  public ResponseEntity<String> defaultpage() {
     logger.info("end point called.");
-    return "OK!";
+    logger.info("...");
+    return ResponseEntity.ok("OK!");
   }
 
   // To verify status of Copaal server
   @RequestMapping("/copaaltest")
   public ResponseEntity<String> copaaltest() {
+    logger.info("copaal test end point called.");
     if (monitorService.pingCopaal()) {
       return ResponseEntity.ok("OK!");
     }
@@ -49,6 +54,7 @@ public class FactCheckController {
   // To verify status of FactCheck server
   @RequestMapping("/factchecktest")
   public ResponseEntity<String> factchecktest() {
+    logger.info("factcheck test end point called.");
     if (monitorService.pingFactCheck()) {
       return ResponseEntity.ok("OK!");
     }
@@ -75,5 +81,36 @@ public class FactCheckController {
       @RequestParam(value = "password", required = true) String password) {
 
     throw new UnsupportedOperationException();
+  }
+
+  @RequestMapping("/error")
+  public String handleError(HttpServletRequest request) throws Exception {
+    Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+    if (status != null) {
+      Integer statusCode = Integer.valueOf(status.toString());
+
+      logger.error("status is "+statusCode);
+
+      logger.error(httpServletRequestToString(request));
+
+    }
+    return "error";
+  }
+
+  String httpServletRequestToString(HttpServletRequest request) throws Exception {
+
+    ServletInputStream mServletInputStream = request.getInputStream();
+    byte[] httpInData = new byte[request.getContentLength()];
+    int retVal = -1;
+    StringBuilder stringBuilder = new StringBuilder();
+
+    while ((retVal = mServletInputStream.read(httpInData)) != -1) {
+      for (int i = 0; i < retVal; i++) {
+        stringBuilder.append(Character.toString((char) httpInData[i]));
+      }
+    }
+
+    return stringBuilder.toString();
   }
 }

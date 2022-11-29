@@ -107,6 +107,10 @@ public class ServicesResponses {
     }
 
     public Boolean getCopaalResultIsReady() {
+
+        if(copaalResultIsReady == null){
+            return false;
+        }
         return copaalResultIsReady;
     }
 
@@ -115,6 +119,10 @@ public class ServicesResponses {
     }
 
     public Boolean getCopaalFacedError() {
+
+        if(copaalFacedError == null){
+            return false;
+        }
         return copaalFacedError;
     }
 
@@ -139,6 +147,10 @@ public class ServicesResponses {
     }
 
     public Boolean getFactcheckResultIsReady() {
+
+        if(factcheckResultIsReady == null){
+            return false;
+        }
         return factcheckResultIsReady;
     }
 
@@ -147,6 +159,9 @@ public class ServicesResponses {
     }
 
     public Boolean getFactcheckFacedError() {
+        if(factcheckFacedError == null){
+            return false;
+        }
         return factcheckFacedError;
     }
 
