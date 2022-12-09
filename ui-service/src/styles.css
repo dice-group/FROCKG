@@ -82,3 +82,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .alert{
   font-size: 10px;
 }
+
+.header{
+  background-color: #5872b5;
+  color: aliceblue;
+  display: block;
+}
+
+.logo{
+  float: left;
+  border: 1px solid red;
+  display: block;
+}
+
+.headerTile{
+  float: right;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid black;
+}
