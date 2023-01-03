@@ -14,7 +14,7 @@ public class FactCheckResultMapperTest {
   FactCheckResultMapper factCheckMapper;
 
   @Test
-  public void FactCheckResultMapper_ShouldMappJsonToDto() {
+  public void FactCheckResultMapper_ShouldMapJsonToDto() {
 
     PodamFactory factory = new PodamFactoryImpl();
     FactCheckResultDto expected = factory.manufacturePojo(FactCheckResultDto.class);

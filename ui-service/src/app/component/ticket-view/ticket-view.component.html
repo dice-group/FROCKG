@@ -1,8 +1,17 @@
+<div class="container">
+<div class="row">
 <div class="back-button-container">
   <button mat-button fxFlex="initial" (click)="showForm()"><mat-icon>arrow_back</mat-icon>Back</button>
-  <div fxFlex></div>
 
 </div>
-<p>
-  the Ticket ID is {{ticketId}} <button mat-button fxFlex="initial" (click)="showResult()"> Check the result </button>
-</p>
+</div>
+<hr/>
+<div class="row">
+  The Ticket ID is :
+<div class="alert alert-success" role="alert">
+   <span id="ticketID"><b>{{ticketId}}</b></span>
+</div>
+  <hr/>
+  <button class="btn btn-success" (click)="showResult()"> Check the result </button>
+</div>
+</div>

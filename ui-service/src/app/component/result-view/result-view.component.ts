@@ -13,6 +13,10 @@ export class ResultViewComponent implements OnInit {
   @Input()
   ticketId: string;
   facadeResult: any;
+  triple: any;
+  veracityScore: any;
+  explanation: any;
+  stringObject: any;
   constructor(public eventService: EventProviderService, public restService: RestService) { }
 
   ngOnInit() {
@@ -35,6 +39,24 @@ export class ResultViewComponent implements OnInit {
       console.log(jsonVal);
       this.facadeResult = jsonVal;
       // JSON.stringify(jsonVal);
+
+      this.stringObject = JSON.parse(JSON.stringify(jsonVal));
+      if ( this.stringObject.subject != null) {
+        this.triple = this.stringObject.subject + ' ' + this.stringObject.predicate + ' ' + this.stringObject.object;
+      } else {
+        this.triple = 'waiting for data ...';
+      }
+      if ( this.stringObject.veracityScore != null) {
+        this.veracityScore = this.stringObject.veracityScore;
+      } else {
+        this.veracityScore = 'waiting for data ...';
+      }
+
+      if ( this.stringObject.explanation != null ) {
+        this.explanation = this.stringObject.explanation;
+      } else {
+        this.explanation = 'waiting for data ...';
+      }
     });
     console.log('end retrieve');
   }

@@ -1,19 +1,42 @@
 <!--<app-graph-view [graphData]="getGraphData()"></app-graph-view>-->
-<div class="header">
-  <div class="logo"> LOGO</div>
-  <div class="headerTile"> <h1>header</h1></div>
+<div class=".container-fluid text-center">
+  <div class="row" style="background-color: #5872b5; padding: 10px;">
+    <div class="col-md-2" >
+      <img src="/assets/img.png" width="200px" />
+    </div>
+    <div class="col-md-8" style="color: #eaeaea">
+      <h1></h1>
+      <h2>Fact Checking for Large Enterprise Knowledge Graphs</h2>
+    </div>
+    <div class="col-md-2" >
+      <app-monitor-connections></app-monitor-connections>
+    </div>
+  </div>
 </div>
 
-<div style="background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-	height: 100vh; ">
-  <div fxLayout="row" style="height: 5%">
-    <app-monitor-connections></app-monitor-connections>
-  </div>
-  <hr/>
+<div class="container-fluid" style="background-color: #f8f9fb; padding-bottom: 250px;">
+
+<div class="row">
   <!--<div *ngIf="showGraph; then graphblock else inputblock" fxLayout="row" style="height: 95%"> </div>-->
   <div *ngIf="showAppUserForm"><app-user-form></app-user-form></div>
   <div *ngIf="showAppResultView"><app-result-view [ticketId]="getTicketId()"></app-result-view></div>
   <div *ngIf="showAppTicketView"><app-ticket-view [ticketId]="getTicketId()"></app-ticket-view></div>
 </div >
+
+</div>
+
+
+<footer  class="text-center text-lg-start text-white navbar fixed-bottom" style="background-color: #45526e; ">
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-12" style="background: #1b2831; color: #adadae;    padding: 25px 0;">
+    <div class="col-md-4">
+      Copyright © 2022 <a href="https://dice-research.org/" target=”_blank”>DICE</a>. All rights reserved.
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+</div>
+</footer>

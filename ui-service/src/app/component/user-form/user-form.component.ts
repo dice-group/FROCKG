@@ -28,8 +28,12 @@ export class UserFormComponent implements OnInit {
     let exObj: CgTriple = new CgTriple('http://dbpedia.org/resource/Barack_Obama',
       'http://dbpedia.org/ontology/nationality', 'http://dbpedia.org/resource/United_States');
     this.exampleArr.push(exObj);
-    exObj = new CgTriple('http://dbpedia.org/resource/Berkshire_Hathaway',
-      'http://dbpedia.org/ontology/keyPerson', 'http://dbpedia.org/resource/Warren_Buffett');
+    exObj = new CgTriple('http://dbpedia.org/resource/Pori_(film)',
+      'http://dbpedia.org/ontology/writer', 'http://dbpedia.org/resource/Subramaniam_Siva');
+    this.exampleArr.push(exObj);
+
+    exObj = new CgTriple('http://dbpedia.org/resource/Samuel_Dennis',
+      'http://dbpedia.org/ontology/nationality', 'http://dbpedia.org/resource/Australia');
     this.exampleArr.push(exObj);
 
     this.subjectFc = new FormControl(this.exampleArr[0].subject, Validators.required);
@@ -40,6 +44,8 @@ export class UserFormComponent implements OnInit {
       'predicate': this.propertyFc,
       'object' : this.objectFc
     });
+    // tslint:disable-next-line:max-line-length
+    this.complexForm.patchValue({'subject': this.exampleArr[0].subject , 'predicate': this.exampleArr[0].property , 'object': this.exampleArr[0].object});
   }
 
 
@@ -53,7 +59,7 @@ export class UserFormComponent implements OnInit {
 
 
   submitForm(value: any): void {
-    console.log('Start factchecking');
+    console.log('Start factchecking' + value);
     this.restService.getRequest('/requestFactChecking', value).subscribe((jsonVal) => {
       console.log('factchecking result is here ');
       console.log(jsonVal);
@@ -62,13 +68,14 @@ export class UserFormComponent implements OnInit {
     console.log('end factchecking');
   }
 
-  selectChange(event: MatSelectChange) {
-    const curSel: CgTriple = this.exampleArr[event.value];
+  onOptionsSelected(value: string) {
+    const curSel: CgTriple = this.exampleArr[value];
     this.subjectFc.setValue(curSel.subject);
     this.propertyFc.setValue(curSel.property);
     this.objectFc.setValue(curSel.object);
+    // tslint:disable-next-line:max-line-length
+    this.complexForm.patchValue({'subject': curSel.subject , 'predicate': curSel.property , 'object': curSel.object});
   }
-
   openHelpPopup() {
     this.dialog.open(HelpDescComponent);
   }

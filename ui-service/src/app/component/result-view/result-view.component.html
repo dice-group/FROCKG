@@ -1,11 +1,39 @@
-<div fxFlexFill fxLayout="column" id="result-body" fxLayoutGap="10px">
+<div class="container-fluid" id="result-body">
+  <div class="row" style="padding-bottom: 15px;">
   <div class="back-button-container">
     <button mat-button fxFlex="initial" (click)="showForm()"><mat-icon>arrow_back</mat-icon>Back</button> |
     <button mat-button fxFlex="initial" (click)="retry()"><mat-icon>autorenew</mat-icon>retry</button>
     <div fxFlex></div>
-
   </div>
-  <div fxFlex="auto" fxLayout="row" fxLayoutGap="10px">
+  </div>
+  <hr/>
+
+  <div class="row">
+    <div class="alert alert-info" style="padding: 25px;">
+    <span> Triple for check : <b>{{triple}}</b></span> <br/>
+    <span> Veracity score is : <b>{{veracityScore}}</b></span> <br/>
+    <span> Explanation:&nbsp; &nbsp;</span>
+      <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        show
+      </button>
+
+
+    <div class="collapse" id="collapseExample" style="margin-top: 15px;">
+      <div class="jumbotron">
+        <pre>
+        {{explanation}}
+        </pre>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="row">
+    raw response : <br/>
+  </div>
+  <div class="row">
     <div fxFlex="1"></div>
     <div fxFlex="98">
          <pre>{{facadeResult | json}}</pre>

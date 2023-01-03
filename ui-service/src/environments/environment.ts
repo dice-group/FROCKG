@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiBase: '/service'
+  /*apiBase: 'http://localhost:8080/service'*/
 };
 
 /*

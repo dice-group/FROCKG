@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EventProviderService} from "../../service/event/event-provider.service";
+import {EventProviderService} from '../../service/event/event-provider.service';
 
 @Component({
   selector: 'app-ticket-view',
@@ -22,7 +22,7 @@ export class TicketViewComponent implements OnInit {
     this.eventService.btnBackEvent.emit( );
   }
 
-  showResult(){
+  showResult() {
     this.eventService.submitTicketEvent.emit(this.ticketId);
   }
 

@@ -1,54 +1,59 @@
-<div fxLayoutAlign="center center" >
-  <div fxLayout="column" fxLayoutGap="10px" style="margin-top:150px;">
-    <mat-card style="min-width: 500px;">
-      <form fxLayout="column wrap" fxLayoutGap="10px" [formGroup]="complexForm" (ngSubmit)="complexForm.valid && submitForm(complexForm.value)">
-        <div fxLayout="column wrap" fxLayoutGap="10px">
-          <mat-form-field>
-            <input formControlName="subject" matInput required placeholder="Subject"/>
-            <mat-error *ngIf="subjectFc.hasError('required')">Subject is required.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field>
-            <input formControlName="predicate" matInput required placeholder="predicate"/>
-            <mat-error *ngIf="propertyFc.hasError('required')">predicate is required.</mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input formControlName="object" matInput required placeholder="Object"/>
-            <mat-error *ngIf="objectFc.hasError('required')">Object is required.</mat-error>
-          </mat-form-field>
+<div class="container">
+<div class="container ">
+  <div style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-6">
+          <span class="carousel">
+            <h3>Enter your triple for calculating the veracity of it</h3>
+      <form [formGroup]="complexForm" (ngSubmit)="complexForm.valid && submitForm(complexForm.value)">
+        <div class="mb-3">
+          <label for="subject" class="form-label">subject</label>
+          <input type="text" class="form-control" id="subject" formControlName="subject">
         </div>
-        <div style="height: 5px;margin-top: 10px;">
-          <mat-progress-bar mode="indeterminate" *ngIf="showBar"></mat-progress-bar>
+        <div class="mb-3">
+          <label for="predicate" class="form-label">predicate</label>
+          <input type="text" class="form-control" id="predicate" formControlName="predicate">
+          <p class="danger" *ngIf="propertyFc.hasError('required')">predicate is required.</p>
         </div>
-        <div fxFlexAlign="center">
-          <button type="submit" mat-button fxFlex="initial">Submit</button>
+        <div class="mb-3">
+          <label for="object" class="form-label">object</label>
+          <input type="text" class="form-control" id="object" formControlName="object">
+          <p class="danger" *ngIf="objectFc.hasError('required')">Object is required.</p>
         </div>
+<br>
+        <button type="submit" class="btn btn-primary" >Submit</button>
       </form>
-    </mat-card>
-    <div style="text-align: end;">
-      <span class="help-text" (click)="openHelpPopup()" matTooltip="Click to open instructions"><u>Help?</u></span>
-      &nbsp;&nbsp;&nbsp;
-    </div>
-    <div>
-      <mat-form-field fxFlexFill>
-        <mat-label>Examples</mat-label>
-        <mat-select (selectionChange)="selectChange($event)">
-          <mat-option *ngFor="let exTrip of exampleArr; let i = index" [value]="i">
+  </span>
+      <hr/>
+      <div class="mb-3" style="margin-top: 25px;">
+        <label for="examples" class="form-label">examples</label>
+        <select id="examples" #mySelect class="form-control" (change)='onOptionsSelected(mySelect.value)' >
+          <option *ngFor="let exTrip of exampleArr; let i = index" [value]="i">
             {{exTrip.subject + ' ' + exTrip.property + ' ' + exTrip.object + ' .'}}
-          </mat-option>
-        </mat-select>
-        <mat-hint>Select an example to auto-fill form</mat-hint>
-      </mat-form-field>
+          </option>
+        </select>
+      </div>
     </div>
-    <hr>
-    <div>
+    <div class="col-md-6">
+      <div>
         <h3>If you want retrieve a result for a ticket use this form</h3>
         <form>
-          Ticket id : <input type="text" id="ticketIdForRetrieve" style="width: 100%; border: solid 1px green;">
-          <br><br>
-          <button (click)="retrieveResultByTicketId()" formtarget="_blank" style="width: 15%;" >Retrieve</button>
+          <div class="mb-3" style="margin-top: 25px;">
+            <label for="ticketIdForRetrieve" class="form-label">Ticket id </label>
+            <input type="text" class="form-control" id="ticketIdForRetrieve" style="width: 100%; border: solid 1px green;">
+          </div>
+          <br>
+          <button (click)="retrieveResultByTicketId()" formtarget="_blank"  class="btn btn-success" >Retrieve</button>
+
         </form>
+      </div>
+
     </div>
+  </div>
+
+
+
   </div>
 </div>
 
+</div>
