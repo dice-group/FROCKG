@@ -19,7 +19,11 @@
 <div class="row">
   <!--<div *ngIf="showGraph; then graphblock else inputblock" fxLayout="row" style="height: 95%"> </div>-->
   <div *ngIf="showAppUserForm"><app-user-form></app-user-form></div>
-  <div *ngIf="showAppResultView"><app-result-view [ticketId]="getTicketId()"></app-result-view></div>
+  <div *ngIf="showAppResultView">
+    <app-graph-view  [graphData]="getGraphData()"></app-graph-view>
+    <hr/>
+    <app-result-view [ticketId]="getTicketId()"></app-result-view>
+  </div>
   <div *ngIf="showAppTicketView"><app-ticket-view [ticketId]="getTicketId()"></app-ticket-view></div>
 </div >
 

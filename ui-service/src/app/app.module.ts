@@ -19,6 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { HelpDescComponent } from './component/help-desc/help-desc.component';
 import { MonitorConnectionsComponent } from './component/monitor-connections/monitor-connections.component';
 import { TicketViewComponent } from './component/ticket-view/ticket-view.component';
+import { GraphViewComponent } from './component/graph-view/graph-view.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TicketViewComponent } from './component/ticket-view/ticket-view.compone
     ResultViewComponent,
     HelpDescComponent,
     MonitorConnectionsComponent,
-    TicketViewComponent
+    TicketViewComponent,
+    GraphViewComponent
   ],
   imports: [
     MatButtonModule,

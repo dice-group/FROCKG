@@ -5,16 +5,38 @@ export const GRAPHDATA = {
   'piecesOfEvidence': [
     {
       'score': 0.5,
-      'evidence': '<http://rdf.frockg.eu/resource/fdaers/occupation>',
-      'verbalization': 'Verbalization is disabled.'
+      'evidence': [{
+        'subject' : 'http://s1.com',
+        'property' : 'http://p1.com',
+        'object' : 'http://o1.com'
+      }],
+      'verbalization': 'Verbalization is disabled.',
+      'id': 1
     },
     {
       'score': 0.3,
       // tslint:disable-next-line:max-line-length
-      'evidence': '<http://rdf.frockg.eu/resource/fdaers/i_f_code>/^<http://rdf.frockg.eu/resource/fdaers/i_f_code>/<http://rdf.frockg.eu/resource/fdaers/occupation>',
-      'verbalization': 'Verbalization is disabled.'
+      'evidence': [{
+        'subject' : 'http://a1.com',
+        'property' : 'http://rdf.frockg.eu/resource/fdaers/i_f_code',
+        'object' : 'http://s1.com'
+      }, {
+        'subject' : 'http://a1.com',
+        'property' : 'http://rdf.frockg.eu/resource/fdaers/i_f_code',
+        'object' : 'http://a2.com'
+      }, {
+        'subject' : 'http://o1.com',
+        'property' : 'http://rdf.frockg.eu/resource/fdaers/occupation',
+        'object' : 'http://a2.com'
+      }],
+      'verbalization': 'Verbalization is disabled.',
+      'id': 2
     }
   ],
   // tslint:disable-next-line:max-line-length
-  'fact': '[http://rdf.frockg.eu/resource/fdaers/case/8779990, http://rdf.frockg.eu/resource/fdaers/occupation, http://rdf.frockg.eu/resource/fdaers/occupation/Y]'
+  'fact': {
+    'subject' : 'http://s1.com',
+    'property' : 'http://rdf.frockg.eu/resource/fdaers/occupation',
+    'object' : 'http://o1.com'
+  }
 };

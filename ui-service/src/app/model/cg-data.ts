@@ -4,6 +4,6 @@ import {CgTriple} from './cg-triple';
 export class CgData {
   piecesOfEvidence: CgPath[];
   veracityValue: number;
-  fact: string;
+  fact: CgTriple;
   finalJudgement?: boolean;
 }

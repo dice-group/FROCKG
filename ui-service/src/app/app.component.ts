@@ -1,17 +1,22 @@
-import {AfterContentInit, Component, OnInit} from '@angular/core';
+import {AfterContentInit, Component, NgZone, OnInit} from '@angular/core';
 
 import {EventProviderService} from './service/event/event-provider.service';
 import {CgData} from './model/cg-data';
 import {CgTriple} from './model/cg-triple';
+/*import {GRAPHDATA} from './model/mock-data';*/
+import * as d3 from 'd3';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'cg-ui';
   ticketId: string;
 
+  public graphData: CgData;
   public showAppResultView = true;
   public showAppUserForm = true;
   public showAppTicketView = true;
@@ -28,6 +33,17 @@ export class AppComponent implements OnInit{
     eventService.btnBackEvent.subscribe(() => {
       this.btnBackEventRaised();
     });
+
+    eventService.updateDataEvent.subscribe((graphData: CgData) => {
+        console.log('----------------graph Data-----------------');
+        console.log(graphData);
+        this.graphData = graphData;
+    });
+
+    eventService.refreshGraphEvent.subscribe(
+      () => {
+        console.log('refreshing the graph');
+      }) ;
   }
 
   submitTicketEventRaised(ticketId: string) {
@@ -43,20 +59,23 @@ export class AppComponent implements OnInit{
     this.ticketId = ticketId;
   }
 
-  btnBackEventRaised(){
+  btnBackEventRaised() {
     this.showAppResultView = false;
     this.showAppUserForm = true;
     this.showAppTicketView = false;
   }
 
-  getTicketId(){
+  getTicketId() {
     return this.ticketId;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.showAppResultView = false;
     this.showAppUserForm = true;
     this.showAppTicketView = false;
   }
 
+  getGraphData() {
+    return this.graphData;
+  }
 }
