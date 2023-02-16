@@ -7,16 +7,18 @@ public class Evidence implements Comparable<Evidence> {
     private String evidence;
     private List<SubPathDto> pathEvidences;
     private String verbalization;
+    private String sample;
     private String source;
 
     public Evidence() {
     }
 
-    public Evidence(double score, String evidence,List<SubPathDto> pathEvidences, String verbalization, String source) {
+    public Evidence(double score, String evidence,List<SubPathDto> pathEvidences, String verbalization,String sample, String source) {
         this.score = score;
         this.evidence = evidence;
         this.pathEvidences = pathEvidences;
         this.verbalization = verbalization;
+        this.sample = sample;
         this.source = source;
     }
 
@@ -58,6 +60,14 @@ public class Evidence implements Comparable<Evidence> {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getSample() {
+        return sample;
+    }
+
+    public void setSample(String sample) {
+        this.sample = sample;
     }
 
     @Override

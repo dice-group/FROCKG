@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="back-button-container">
+      <button (click)="showForm()"><i class="fa-solid fa-left-long"></i> Back</button>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    use this link to retrive the result :
+    <div class="alert alert-success" role="alert">
+      <span id="ticketURL"><b>{{ticketURL}}</b></span>
+    </div>
+    <hr/>
+    <button class="btn btn-success" (click)="showResult()"> Check the result </button>
+  </div>
+</div>

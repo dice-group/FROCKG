@@ -1,0 +1,59 @@
+<div class="container-fluid" id="result-body">
+  <div class="row" style="padding-bottom: 15px;">
+    <div class="back-button-container">
+      <button  (click)="showForm()"><i class="fa-solid fa-left-long"></i> Back</button> |
+      <button  (click)="retry()"><i class="fa fa-refresh"></i>refresh</button>
+    </div>
+  </div>
+  <hr/>
+
+  <div class="row">
+    <div class="alert alert-info" style="padding: 25px;">
+      <span> Triple for check : <b>{{triple}}</b></span> <br/>
+      <span> Veracity score is : <b>{{veracityScore}}</b></span> <br/>
+      <span> Explanation:&nbsp; &nbsp;</span>
+      <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExp" aria-expanded="false" aria-controls="collapseExample">
+        show
+      </button>
+
+
+      <div class="collapse" id="collapseExp" style="margin-top: 15px;">
+        <div class="jumbotron">
+        <pre>
+        {{explanation}}
+        </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="alert alert-info" style="padding: 25px;">
+      <button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGraph" aria-expanded="false" aria-controls="collapseExample">
+        Show Graph
+      </button>
+
+
+      <div class="collapse" id="collapseGraph" style="margin-top: 15px;">
+        <div class="jumbotron">
+          <div class="row" style="height: 600px;">
+            <div *ngIf="graphData !== undefined && graphData !== null ">
+              <app-graph [graphData]="graphData"></app-graph>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    raw response : <br/>
+  </div>
+  <div class="row">
+    <div fxFlex="1"></div>
+    <div fxFlex="98">
+      <pre>{{facadeResult | json}}</pre>
+    </div>
+    <div fxFlex="1"></div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="container ">
+    <div style="margin-top: 25px;">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <span class="carousel">
+            <h3>Enter your triple for calculating the veracity of it</h3>
+      <form [formGroup]="complexForm" (ngSubmit)="complexForm.valid && submitForm(complexForm.value)">
+        <div class="mb-3">
+          <label for="subject" class="form-label">subject</label>
+          <input type="text" class="form-control" id="subject" formControlName="subject">
+        </div>
+        <div class="mb-3">
+          <label for="predicate" class="form-label">predicate</label>
+          <!--<input type="text" class="form-control" id="predicate" formControlName="predicate">-->
+          <select id="predicate" #predicateSelect class="form-control" formControlName="predicate" >
+              <option *ngFor="let p of predicates; let i = index" [value]="i">
+                {{p}}
+              </option>
+            </select>
+          <p class="danger" *ngIf="propertyFc.hasError('required')">predicate is required.</p>
+        </div>
+        <div class="mb-3">
+          <label for="object" class="form-label">object</label>
+          <input type="text" class="form-control" id="object" formControlName="object">
+          <p class="danger" *ngIf="objectFc.hasError('required')">Object is required.</p>
+        </div>
+<br>
+        <button type="submit" class="btn btn-primary" >Submit</button>
+      </form>
+  </span>
+          <hr/>
+          <div class="mb-3" style="margin-top: 25px;">
+            <label for="examples" class="form-label">examples</label>
+            <select id="examples" #mySelect class="form-control" (change)='onOptionsSelected(mySelect.value)' >
+              <option *ngFor="let exTrip of exampleArr; let i = index" [value]="i">
+                {{exTrip.subject + ' ' + exTrip.property + ' ' + exTrip.object + ' .'}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>

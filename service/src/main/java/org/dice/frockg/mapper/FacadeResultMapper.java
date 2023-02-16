@@ -32,7 +32,7 @@ public class FacadeResultMapper {
             try {
                 CopaalResponseDto copaalResponse = g.fromJson(serviceResponse.getCopaalResult(), CopaalResponseDto.class);
                 for (Evidence evidence : copaalResponse.getPiecesOfEvidence()) {
-                    mappedResult.addPiecesOfEvidence(new Evidence(evidence.getScore(), evidence.getEvidence(), subPathDtoMapper.map(evidence.getEvidence()), evidence.getVerbalization(), "Copaal"));
+                    mappedResult.addPiecesOfEvidence(new Evidence(evidence.getScore(), evidence.getEvidence(), subPathDtoMapper.map(evidence.getEvidence()), evidence.getVerbalization(), evidence.getSample(),"Copaal"));
                 }
 
                 if (mappedResult.getVeracityScore() < copaalResponse.getVeracityValue()) {
@@ -55,7 +55,7 @@ public class FacadeResultMapper {
             try {
                 FactcheckResponseDto fcresponse = g.fromJson(serviceResponse.getFactcheckResult(), FactcheckResponseDto.class);
                 for (ComplexProof prof : fcresponse.getComplexProofs()) {
-                    mappedResult.addPiecesOfEvidence(new Evidence(prof.getTrustworthiness(), prof.getProofPhrase(), new ArrayList<>(), "We found this evidence in our reference knowledge base: " + prof.getProofPhrase(), "Factcheck"));
+                    mappedResult.addPiecesOfEvidence(new Evidence(prof.getTrustworthiness(), prof.getProofPhrase(), new ArrayList<>(), "We found this evidence in our reference knowledge base: " + prof.getProofPhrase(),"" ,"Factcheck"));
                 }
                 if (mappedResult.getVeracityScore() < fcresponse.getDefactoScore()) {
                     mappedResult.setVeracityScore(fcresponse.getDefactoScore());

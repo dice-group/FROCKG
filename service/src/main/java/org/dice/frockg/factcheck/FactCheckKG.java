@@ -33,7 +33,7 @@ public class FactCheckKG implements Callable<Void> {
 
     try {
       String url = serverURL + "/validate"
-              + "?subject={subject}&property={predicate}&object={object}&verbalize=true";
+              + "?subject={subject}&property={predicate}&object={object}&verbalize=false&pathWithSample=true";
 
       RestTemplate restTemplate = new RestTemplate();
       String result = restTemplate.getForObject(url, String.class, subject, predicate, object);
